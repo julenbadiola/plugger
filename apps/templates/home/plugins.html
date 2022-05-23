@@ -1,0 +1,36 @@
+{% extends "layouts/base.html" %}
+
+{% block title %} Containers {% endblock %} 
+
+<!-- Specific Page CSS goes HERE  -->
+{% block stylesheets %}{% endblock stylesheets %}
+
+{% block content %}
+
+<form class="navbar-search form-inline my-4" id="navbar-search-main">
+  <div class="input-group input-group-merge search-bar">
+      <span class="input-group-text" id="topbar-addon">
+        <svg class="icon icon-xs" x-description="Heroicon name: solid/search" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+          <path fill-rule="evenodd" d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z" clip-rule="evenodd"></path>
+        </svg>
+      </span>
+      <input type="text" class="form-control" id="topbarInputIconLeft" placeholder="Search" aria-label="Search" aria-describedby="topbar-addon">
+  </div>
+</form>
+
+<div class="container">
+    {% for container in containers %}
+    <div class="col-6 col-md-4 card" style="width: 18rem;">
+        <div class="card-body">
+          <h5 class="card-title">{{container.name}}</h5>
+          <p class="card-text">{{container.Image}}</p>
+          <a href="#" class="btn btn-error">Stop</a>
+        </div>
+      </div>
+    {% endfor %}
+    
+  </div>
+{% endblock content %}
+
+<!-- Specific Page JS goes HERE  -->
+{% block javascripts %}{% endblock javascripts %}
