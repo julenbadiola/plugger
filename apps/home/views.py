@@ -1,14 +1,10 @@
 # -*- encoding: utf-8 -*-
-"""
-Copyright (c) 2019 - present AppSeed.us
-"""
 
-from django import template
+from core import docker
 from django.contrib.auth.decorators import login_required
-from django.http import HttpResponse, HttpResponseRedirect
+from django.http import HttpResponse
 from django.template import loader
-from django.urls import reverse
-from core.docker import client
+from docker.models.containers import Container
 
 
 # @login_required(login_url="/login/")
@@ -18,33 +14,59 @@ def index(request):
     return HttpResponse(html_template.render(context, request))
 
 def plugins(request):
-    context = {"segment": "plugins", "containers": client.containers.list()}
-    for container in client.containers.list():
-        print(container.__dict__)
+    started = []
+    notstarted = []
+    if request.method == 'POST':
+        stop = request.POST.get("stop")
+        if stop:
+            container = docker.get(stop)
+            container.stop()
+            container.remove()
+        else:
+            image = request.POST.get("IMAGE")    
+            for plugin in docker.plugins_list:
+                if plugin.get("image") == image:
+                    env = []
+                    keys = [environment_variable.get("key") for environment_variable in plugin.get("configuration").get("environment")]
+                    for key, value in request.POST.items():
+                        if key in keys:
+                            env.append(f"{key}={value}")
+
+                    docker.create(
+                        image=image, 
+                        plugin=plugin,
+                        env=env
+                    )
+
+    containers = docker.list()
+    for plugin in docker.plugins_list:
+        found = False
+        for container in containers:
+            container : Container
+            if plugin.get("image") in container.image.attrs.get("RepoTags"):
+                plugin["containerId"] = container.id
+                started.append({**plugin, **container.__dict__})
+                found = True
+        if not found:
+            notstarted.append(plugin)
+
+    context = {
+        "segment": "plugins", 
+        "started": started,
+        "notstarted": notstarted
+    }
     html_template = loader.get_template("home/plugins.html")
     return HttpResponse(html_template.render(context, request))
 
 
-# @login_required(login_url="/login/")
-def pages(request):
-    context = {}
-    # All resource paths end in .html.
-    # Pick out the html file name from the url. And load that template.
-    try:
-        load_template = request.path.split("/")[-1]
+def dashboard(request):
+    started = []
+    notstarted = []
 
-        if load_template == "admin":
-            return HttpResponseRedirect(reverse("admin:index"))
-        context["segment"] = load_template
-
-        html_template = loader.get_template("home/" + load_template)
-        return HttpResponse(html_template.render(context, request))
-
-    except template.TemplateDoesNotExist:
-
-        html_template = loader.get_template("home/page-404.html")
-        return HttpResponse(html_template.render(context, request))
-
-    except:
-        html_template = loader.get_template("home/page-500.html")
-        return HttpResponse(html_template.render(context, request))
+    context = {
+        "segment": "dashboard", 
+        "started": started,
+        "notstarted": notstarted
+    }
+    html_template = loader.get_template("home/dashboard.html")
+    return HttpResponse(html_template.render(context, request))
