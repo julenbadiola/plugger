@@ -4,7 +4,7 @@ import EditIcon from '@mui/icons-material/Edit';
 import FileCopyIcon from '@mui/icons-material/FileCopy';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import MoreHorizIcon from '@mui/icons-material/MoreHoriz';
-import { Box, Card, Container, Fab, Typography } from '@mui/material';
+import { Avatar, Box, Card, Container, Fab, ListItemIcon, Stack, Typography } from '@mui/material';
 import Divider from '@mui/material/Divider';
 import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
@@ -76,12 +76,7 @@ const Home = () => {
   return (
     <Container maxWidth="lg">
       {isAuthenticated ? <Box sx={{ mt: 2 }}>
-        <Typography variant="h4">
-          Resources
-        </Typography>
-        <Card>
-
-        </Card>
+        
         <Fab variant="extended" onClick={handleClick}
           icon={<KeyboardArrowDownIcon />} color="primary" sx={{
             position: 'fixed',
@@ -100,9 +95,11 @@ const Home = () => {
           onClose={handleClose}
         >
 
-          {plugins.map(plugin => <MenuItem onClick={handleClose} disableRipple>
-            <EditIcon />
-            Edit
+          {plugins.map(plugin => <MenuItem key={plugin.name} onClick={handleClose}>
+            <Stack spacing={2} alignItems="center" direction="row">
+            <Avatar src={plugin.icon} /> <Typography variant="overline">{plugin.text}</Typography>
+            </Stack>
+            
           </MenuItem>)}
         </StyledMenu>
 

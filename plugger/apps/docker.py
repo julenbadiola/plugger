@@ -52,8 +52,8 @@ class ServiceManager:
     def remove(self, object):
         return object.remove()
 
-    @lru_cache()
-    def status(self, ttl_hash=5):
+    # @lru_cache() ttl_hash=5
+    def status(self):
         started = []
         notstarted = []
 
