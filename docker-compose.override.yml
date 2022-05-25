@@ -26,15 +26,15 @@ services:
 
   core:
     image: julenbadiola/tfmcore:master
-    build: .
+    build: ./plugger
     ports:
       - 5005:5005
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock:ro
-      - .:/app
+      - ./plugger:/app
     environment:
       - MODE=compose
-    command: python manage.py runserver 0.0.0.0:5005
+    command: ./entry-dev.sh
     labels:
       - traefik.enable=true
       - traefik.docker.network=web_network

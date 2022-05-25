@@ -90,6 +90,7 @@ services:
       - db_network
       - web_network
     # tiene que estar en manager para interactuar con el socket
+    command: ./entry-prod.sh
     deploy:
       mode: replicated
       replicas: 1
