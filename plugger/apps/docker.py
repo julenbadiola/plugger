@@ -2,6 +2,8 @@ import docker
 from docker.models.containers import Container
 from docker.errors import NotFound
 import os
+from apps.catalogue import PLUGINS_LIST
+from functools import lru_cache
 
 COMPOSE = os.getenv('MODE', "compose") == "compose"
 # "compose" or "swarm"
@@ -49,5 +51,20 @@ class ServiceManager:
 
     def remove(self, object):
         return object.remove()
+
+    @lru_cache()
+    def status(self, ttl_hash=5):
+        started = []
+        notstarted = []
+
+        for plugin in PLUGINS_LIST:
+            for container in self.list():
+                if plugin.get("image") in container.image.attrs.get("RepoTags"):
+                    started.append({**plugin, "containerId": container.id})
+                    break
+            else:
+                notstarted.append(plugin)
+            
+        return started, notstarted
 
 manager = ServiceManager()

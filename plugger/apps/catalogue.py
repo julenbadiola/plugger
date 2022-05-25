@@ -22,6 +22,11 @@ PLUGINS_LIST = [
             "snapshots_links": ["https://www.filo.news/export/sites/claro/img/2022/02/21/aisummary.gif_344325628.gif"],
             "preconditions": []
         },
+        "info": {
+            "name": "Google Drive",
+            "url": "/googledrive/assets",
+            "text": "Create a new Google Drive resource"
+        },
         "configuration": {
             "environment": [
                 {
@@ -55,8 +60,6 @@ PLUGINS_LIST = [
         "image": "interlinkproject/interlinker-googledrive:master",
         "labels": {
             **labels,
-            "name": "Google Drive",
-            "url": "/googledrive/assets",
             "traefik.http.routers.tfm-googledrive.rule": "Host(`localhost`) && PathPrefix(`/googledrive`)",
             "traefik.http.services.tfm-googledrive.loadbalancer.server.port": "80",
             "traefik.http.middlewares.googledrive-stripprefix.stripprefix.prefixes": "/googledrive",

@@ -10,6 +10,12 @@ from django.template import loader
 from apps.utils import anonymous_required
 from apps.catalogue import PLUGINS_LIST
 from .forms import LoginForm
+from django.http import JsonResponse
+
+
+def status(request):
+    started, stopped = manager.status()
+    return JsonResponse([plugin.get("info") for plugin in started], safe=False)
 
 
 @anonymous_required
@@ -61,22 +67,9 @@ def plugins(request):
                         env=env
                     )
 
-    containers = manager.list()
-    for plugin in PLUGINS_LIST:
-        found = False
-        for container in containers:
-            container: Container
-            if plugin.get("image") in container.image.attrs.get("RepoTags"):
-                plugin["containerId"] = container.id
-                started.append({**plugin, **container.__dict__})
-                found = True
-        if not found:
-            notstarted.append(plugin)
+    started, notstarted = manager.status()
 
-    context = {
-        "segment": "plugins",
+    return render(request, "home/plugins.html", {
         "started": started,
         "notstarted": notstarted
-    }
-    html_template = loader.get_template("home/plugins.html")
-    return HttpResponse(html_template.render(context, request))
+    })

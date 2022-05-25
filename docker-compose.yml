@@ -77,9 +77,9 @@ services:
     networks:
       - db_network
 
-  core:
-    image: julenbadiola/tfmcore:master
-    container_name: core
+  plugger:
+    image: julenbadiola/plugger:master
+    container_name: plugger
     restart: always
     env_file: .env
     environment:
@@ -97,10 +97,11 @@ services:
       placement:
         constraints:
           - node.role == manager
-      labels:
-        - traefik.enable=true
-        - traefik.http.routers.tfm-core-http.rule=PathPrefix(`/`)
-        - traefik.http.services.tfm-core.loadbalancer.server.port=5050
+      # labels:
+      #   - traefik.enable=true
+      #   - traefik.docker.network=web_network
+      #   - traefik.http.routers.tfm-plugger-http.rule=PathPrefix(`/`)
+      #   - traefik.http.services.tfm-plugger.loadbalancer.server.port=5050
 
 networks:
   db_network:

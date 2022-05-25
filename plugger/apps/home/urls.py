@@ -11,4 +11,5 @@ urlpatterns = [
     path("", views.home, name="home"),
     path("logout", auth_views.LogoutView.as_view(), name="logout"),
     path("plugins", views.plugins, name="plugins"),
+    path("status", views.status, name="status"),
 ]
