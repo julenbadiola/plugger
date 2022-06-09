@@ -17,6 +17,10 @@ def status(request):
     started, stopped = manager.status()
     return JsonResponse([plugin.get("info") for plugin in started], safe=False)
 
+@login_required(login_url="/")
+def list(request):
+    return JsonResponse(PLUGINS_LIST, safe=False)
+
 
 @anonymous_required
 def home(request):
@@ -48,24 +52,21 @@ def plugins(request):
     if request.method == 'POST':
         stop = request.POST.get("stop")
         if stop:
-            container = manager.get(stop)
-            container.stop()
-            container.remove()
+            manager.remove(stop)
         else:
-            image = request.POST.get("IMAGE")
-            for plugin in PLUGINS_LIST:
-                if plugin.get("image") == image:
-                    env = []
-                    keys = [environment_variable.get("key") for environment_variable in plugin.get(
-                        "configuration").get("environment")]
-                    for key, value in request.POST.items():
-                        if key in keys:
-                            env.append(f"{key}={value}")
-
-                    manager.start(
-                        plugin=plugin,
-                        env=env
-                    )
+            name = request.POST.get("name")
+            data = PLUGINS_LIST[name]
+            if not data.get("show", True):
+                raise Exception("eo")
+            
+            env = [i["key"] + "=" + i["value"] for i in data.get("configuration", {}).get("system", [])]
+            conf_vars = [cv["key"] for cv in data.get("configuration", {}).get("editable", [])]
+            [env.append(f"{key}={value}") for key, value in request.POST.items() if key in conf_vars]
+            manager.start(
+                name=name,
+                plugin=data,
+                env=env
+            )
 
     started, notstarted = manager.status()
 
