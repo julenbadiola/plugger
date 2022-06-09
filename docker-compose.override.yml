@@ -20,7 +20,7 @@ services:
       # Enable the Dashboard and API in insecure mode for local development
       - --api.insecure=true
     labels:
-      - traefik.docker.network=web_network
+      - traefik.docker.network=${NETWORK_NAME}
       - traefik.http.routers.tfm-traefik-public-http.rule=Host(`${DOMAIN?Variable not set}`)
       - traefik.http.services.tfm-traefik-public.loadbalancer.server.port=80
 
@@ -37,7 +37,7 @@ services:
     command: ./entry-dev.sh
     # labels:
     #   - traefik.enable=true
-    #   - traefik.docker.network=web_network
+    #   - traefik.docker.network=${NETWORK_NAME}
     #   - traefik.http.routers.tfm-plugger-http.rule=PathPrefix(`/`)
     #   - traefik.http.services.tfm-plugger.loadbalancer.server.port=5005
 
@@ -48,14 +48,12 @@ services:
     environment:
       - NODE_ENV=development
       - SERVER_NAME=${DOMAIN}
-      - PORT=3000
+      - PORT=80
     restart: always
     volumes:
       - ./core:/app
-    networks:
-      - web_network
     labels:
       - traefik.enable=true
-      - traefik.docker.network=web_network
+      - traefik.docker.network=${NETWORK_NAME}
       - traefik.http.routers.tfm-core-http.rule=PathPrefix(`/`)
-      - traefik.http.services.tfm-core.loadbalancer.server.port=3000
+      - traefik.http.services.tfm-core.loadbalancer.server.port=80

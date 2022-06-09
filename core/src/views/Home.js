@@ -1,11 +1,6 @@
 import { useAuth0 } from "@auth0/auth0-react";
-import ArchiveIcon from '@mui/icons-material/Archive';
-import EditIcon from '@mui/icons-material/Edit';
-import FileCopyIcon from '@mui/icons-material/FileCopy';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
-import MoreHorizIcon from '@mui/icons-material/MoreHoriz';
-import { Avatar, Box, Card, Container, Fab, ListItemIcon, Stack, Typography } from '@mui/material';
-import Divider from '@mui/material/Divider';
+import { Avatar, Box, Container, Dialog, DialogContent, DialogTitle, Fab, Stack, Typography } from '@mui/material';
 import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
 import { alpha, styled } from '@mui/material/styles';
@@ -60,6 +55,8 @@ const Home = () => {
   const [anchorEl, setAnchorEl] = useState(null);
   const [plugins, setPlugins] = useState([]);
   const open = Boolean(anchorEl);
+
+  const [dialogOpen, setDialogOpen] = useState(null);
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
   };
@@ -76,7 +73,7 @@ const Home = () => {
   return (
     <Container maxWidth="lg">
       {isAuthenticated ? <Box sx={{ mt: 2 }}>
-        
+
         <Fab variant="extended" onClick={handleClick}
           icon={<KeyboardArrowDownIcon />} color="primary" sx={{
             position: 'fixed',
@@ -95,12 +92,25 @@ const Home = () => {
           onClose={handleClose}
         >
 
-          {plugins.map(plugin => <MenuItem key={plugin.name} onClick={handleClose}>
+          {plugins.map(plugin => <MenuItem key={plugin.name} onClick={() => setDialogOpen(plugin)}>
             <Stack spacing={2} alignItems="center" direction="row">
-            <Avatar src={plugin.icon} /> <Typography variant="overline">{plugin.text}</Typography>
+              <Avatar src={plugin.icon} /> <Typography variant="overline">{plugin.action_text}</Typography>
             </Stack>
-            
+
           </MenuItem>)}
+          <Dialog
+            open={dialogOpen}
+            onClose={() => setDialogOpen(false)}
+            aria-describedby="new-asset-dialog"
+            maxWidth="lg"
+            fullWidth
+            sx={{background: "main.default"}}
+          >
+            <DialogTitle>{"Create a new asset using"} { }</DialogTitle>
+            <DialogContent>
+              <iframe frameborder="0" style={{overflow: "hidden", height: "60vh", width: "100%"}} height="100%" width="100%" src={dialogOpen && dialogOpen.url + "/instantiate"} />
+            </DialogContent>
+          </Dialog>
         </StyledMenu>
 
       </Box> : "You have to log in first"}
