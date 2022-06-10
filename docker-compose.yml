@@ -94,7 +94,6 @@ services:
     build: ./core
     environment:
       - NODE_ENV=development
-      - SERVER_NAME=${DOMAIN}
       - PORT=3000
     restart: always
     volumes:

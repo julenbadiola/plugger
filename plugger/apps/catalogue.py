@@ -21,6 +21,14 @@ APPLICATIONS = {
             "snapshots": ["https://www.filo.news/export/sites/claro/img/2022/02/21/aisummary.gif_344325628.gif"],
             "preconditions": [],
             "url": "##COMPLETE_PATH##/googledrive/assets",
+            "urls": {
+                "instantiate": "##COMPLETE_PATH##/googledrive/assets/instantiate",
+                "list": "##COMPLETE_PATH##/googledrive/api/v1/assets",
+                "get": "##COMPLETE_PATH##/googledrive/assets/{id}",
+                "clone": "##COMPLETE_PATH##/googledrive/assets/{id}/clone",
+                "download": "##COMPLETE_PATH##/googledrive/assets/{id}/download",
+                "view": "##COMPLETE_PATH##/googledrive/assets/{id}/view",
+            },
             "action_text": "Create a new Google Drive resource"
         },
         "dependencies": ["mongodb"],
@@ -107,12 +115,21 @@ APPLICATIONS = {
     "surveyeditor": {
         "info": {
             "icon": "https://surveyjs.io/Content/Images/logo_1200x630.jpg",
-            "large_name": "Survey editor",
+            "name": "Survey editor",
             "description": "Survey designer and publishing INTERLINKER which allows to create on demand new forms to gather information or help in decision making in co-production processess. It is based on open source tool SurveyJs (https://github.com/surveyjs)",
             "snapshots": [
                 "https://miro.medium.com/max/521/1*J_auLSp-flPAU44iGA8ejA.png"
             ],
-            "preconditions": []
+            "preconditions": [],
+            "urls": {
+                "instantiate": "##COMPLETE_PATH##/surveyeditor/assets/instantiate",
+                "list": "##COMPLETE_PATH##/surveyeditor/api/v1/assets",
+                "get": "##COMPLETE_PATH##/surveyeditor/assets/{id}",
+                "clone": "##COMPLETE_PATH##/surveyeditor/assets/{id}/clone",
+                "download": "##COMPLETE_PATH##/surveyeditor/assets/{id}/download",
+                "view": "##COMPLETE_PATH##/surveyeditor/assets/{id}/view",
+            },
+            "action_text": "Create a new survey"
         },
         "dependencies": ["mongodb"],
         "configuration": {

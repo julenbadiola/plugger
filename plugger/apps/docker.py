@@ -67,11 +67,13 @@ class ServiceManager:
         # started_dependencies = []
         for dependency_name in plugin.get("dependencies", []):
             dependency = PLUGINS_LIST[dependency_name]
-            if not self.get(dependency_name):
-                depenv = [i["key"] + "=" + i["value"] for i in dependency.get("configuration", {}).get("system", [])]
-                self.start(name=dependency_name, plugin=dependency, env=depenv)
-            else:
+
+            try:
+                self.get(dependency_name)
                 print(f"Dependency {dependency_name} already started")
+            except NotFound:
+                depenv = [i["key"] + "=" + i["value"] for i in dependency.get("configuration", {}).get("system", [])]
+                self.start(name=dependency_name, plugin=dependency, env=depenv)              
 
         print("Starting service", name)
         net_name = plugin.get("network")
@@ -112,11 +114,13 @@ class ServiceManager:
         )
 
     def remove(self, id):
-        if obj := self.get(id):
+        try:
+            obj = self.get(id)
             print("Removing service", obj.name)
             obj.stop()
-            return obj.remove()
-        raise Exception(f"Service {id} not found")
+            obj.remove()
+        except NotFound:
+            pass
 
     # @lru_cache() ttl_hash=5
     def status(self):

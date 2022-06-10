@@ -61,5 +61,30 @@ DEPENDENCIES = {
         ],
         "image": "bitnami/mongodb:latest",
         "network": "##PUBLIC_NETWORK##",
+    },
+    "core": {
+        "show": False,
+        "configuration": {
+            "routing": {
+                "traefik": {
+                    "inner_port": 3000,
+                    "prefix": "/",
+                }
+            },
+            "system": [
+                {
+                    "key": "NODE_ENV",
+                    "value": "development"
+                },
+                {
+                    "key": "PORT",
+                    "value": "3000"
+                },
+            ],
+        },
+        "outputs": [
+        ],
+        "image": "julenbadiola/core:master",
+        "network": "##PUBLIC_NETWORK##",
     }
 }
