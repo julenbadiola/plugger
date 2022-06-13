@@ -2,13 +2,11 @@
     "key": "googledrive",
     "info": {
         "icon": "https://upload.wikimedia.org/wikipedia/commons/d/da/Google_Drive_logo.png",
-        "name": "Google Drive",
-        "large_name": "Google drive resource editor",
+        "name": "Google drive resource editor",
         "description": "Google Drive is a file storage and synchronization service developed by Google. Launched on April 24, 2012, Google Drive allows users to store files in the cloud, synchronize files across devices, and share files. Google Drive encompasses Google Docs, Google Sheets, and Google Slides, which are a part of the Google Docs Editors office suite that permits collaborative editing of documents, spreadsheets, presentations, drawings, forms, and more. Files created and edited through the Google Docs suite are saved in Google Drive. This software INTERLIKER allows users of the collaborative environment to create new documents, spreadsheets and presentations which can be co-edited and shared by co-production team participants",
         "snapshots": [
             "https://www.filo.news/export/sites/claro/img/2022/02/21/aisummary.gif_344325628.gif"
         ],
-        "preconditions": [],
         "url": "##COMPLETE_PATH##/googledrive/assets",
         "urls": {
             "instantiate": "##COMPLETE_PATH##/googledrive/assets/instantiate",
@@ -21,9 +19,9 @@
         "action_text": "Create a new Google Drive resource"
     },
     "dependencies": [
-        "mongodb", "core"
+        "mongodb",
+        "core"
     ],
-    "network": "##PUBLIC_NETWORK##",
     "configuration": {
         "routing": {
             "traefik": {
@@ -32,34 +30,7 @@
                 "strip": true
             }
         },
-        "editable": [
-            {
-                "key": "GOOGLE_PROJECT_ID",
-                "default": "deep-sun-346308",
-                "mandatory": true
-            },
-            {
-                "key": "GOOGLE_PRIVATE_KEY_ID",
-                "default": "ada0de332ba04652feaeb05c2808369b2b4c65a8",
-                "mandatory": true
-            },
-            {
-                "key": "GOOGLE_PRIVATE_KEY",
-                "default": "-----BEGIN PRIVATE KEY-----\\nMIIEvgIBADANBgkqhkiG9w0BAQEFAASCBKgwggSkAgEAAoIBAQC0NIUNEPpISOEk\\nEp2RqCXrQkWu5P5d1qKKuTvA68gxaGKi0GuUwnqRN+W6fy2jV0W5kYNjC/XhKOtZ\\nBk42vJgrB9rbw0ZugsTU6En4BtnraZFSh1W40dZ782GjW9UhHtOGt5Lynmm7J5Zr\\nCku9E/lqyComGoKdWYu9YjCXrvCjACiXMoV93FtaTlo+0fq6jdd65bfmgzZYgo4O\\nK0CR1UZVFkWpKYWhhd5Zkk+1jQW7xYhuqCuNfqN5EcrHbVniTEQj+igtkDCPzj/W\\nTbKGjwoTjW6njdApr83Ht6wsmPA8AqcF03Exw6N3UjO6FEWvCFqF91TkJNX0yd0c\\nzQyzv6CrAgMBAAECggEAJiGM29BxXVVKipMD03vklizeSN08s8eEel0qty5NHKNN\\nZ805Tm9+dvcAfd+GXS9M2jDfv9gajavWbO6II03x1v0hAuqFn0G9e52xdTGh8A3V\\nCcUITwTb4TuFOAdpCEqZEMMMbZk2nzsHuZuinh45Yy56uLhYVgpKJuc9iAMk+SBm\\nvpjjz5HE9v8CMnUOQKQtbQWgRrP1VqGnfV4PGLvt17CkW7aiqcMKEX304ks4+YkG\\nf0ChPHGS7NK6RtGzCwGTyo32RuUYQ/dyyycJZ+pGTuxql+MSHbk+gC4nCTcWr85B\\ncpSVZJlk01fJLPl5Q+3lP7GTE7vmWJi8eoEfUHQvAQKBgQDpl++ouGD25UyIzQhi\\nyCcPYmxeUaw/TrhG8H4S59dZTVadSehJT+fCmnpXOx6OvPHOUEa/c0DuzF7fZ/cS\\nqqux9yeYehbGJHOve7ExW4T8M0QO9KmsIvKi+R0b7K4kdmIlVHyr6Q32hFSEXOxf\\nA1v0dcwN6fRJPwlT18LV+oPFAQKBgQDFfZe3qq0M4pa1CNXUNRKXct1Te79mRRgr\\nWd2lmvI4d3P4E+GJ/jNPB2lysN6NNTFpwVsqFi7pgp/wtQRvbfaZr6Dg0Z9eDLsb\\nbHmV6MgN1eYCn/wTGhaKC7kxzv4Prj0aDLet3RR/vDeAs0oakuo/P5s8GTHB4EYw\\nNk5+Nc4JqwKBgQCzzueE+UBybHjoSOMunqEqf3mpdLbhGGhS+uYhCWND83s7odtz\\nK1Xb/2sy4GgaOajsRfDfiAkwiBJzZ6TRMpztZbGN9lS3evGt38m6k5cfRxsZZA2D\\nWndpKdbVWu+FU7ciwxEgh0nfO2ePZ7PvQzeySkajYzZOd35nkosAiVCLAQKBgC/O\\nDwOulOUhlEmOMfSERFPUwi6LLfGbmBYmUrjboPZ6M+BBL78vgUwIB0Zz+etEjQmE\\nfITbic+MhxrFNqWigKcDFHZXR7SEcGZbA7N9/a8br+nCwEn/bqVL4TBlYqp5CuFb\\nYrr7YRLqhKTqwW1dUsaspu8NSjYcC+Fvw+BZNd6xAoGBAL4l5Ul1a96zeiIkPYNY\\nbpvm9m/miU9F78KYHnQdABKigPpB5uFvsQ34Ova7rrf8/+Sc+QAiPc7ilMQaLuLx\\nlonEH0fPrMMUYMFs4KzWxwswdzLCzwQKbsFAbPuclm0ncY3rrpkST/oGe0yyIvBo\\nQeM8gAuTwvHAO0O0n8RennqY\\n-----END PRIVATE KEY-----\\n",
-                "mandatory": true
-            },
-            {
-                "key": "GOOGLE_CLIENT_EMAIL",
-                "default": "tfm-818@deep-sun-346308.iam.gserviceaccount.com",
-                "mandatory": true
-            },
-            {
-                "key": "GOOGLE_CLIENT_ID",
-                "default": "111919952112944000615",
-                "mandatory": true
-            }
-        ],
-        "system": [
+        "environment": [
             {
                 "key": "MONGODB_URL",
                 "value": "mongodb://##MONGODB_USERNAME##:##MONGODB_PASSWORD##@##MONGODB_HOST##:##MONGODB_PORT##/##MONGODB_DATABASE##?retryWrites=true&w=majority"
@@ -95,10 +66,35 @@
             {
                 "key": "BACKEND_CORS_ORIGINS",
                 "value": "[\"##COMPLETE_PATH##\"]"
+            },
+            {
+                "key": "GOOGLE_PROJECT_ID",
+                "value": "deep-sun-346308",
+                "editable": true
+            },
+            {
+                "key": "GOOGLE_PRIVATE_KEY_ID",
+                "value": "ada0de332ba04652feaeb05c2808369b2b4c65a8",
+                "editable": true
+            },
+            {
+                "key": "GOOGLE_PRIVATE_KEY",
+                "value": "-----BEGIN PRIVATE KEY-----\\nMIIEvgIBADANBgkqhkiG9w0BAQEFAASCBKgwggSkAgEAAoIBAQC0NIUNEPpISOEk\\nEp2RqCXrQkWu5P5d1qKKuTvA68gxaGKi0GuUwnqRN+W6fy2jV0W5kYNjC/XhKOtZ\\nBk42vJgrB9rbw0ZugsTU6En4BtnraZFSh1W40dZ782GjW9UhHtOGt5Lynmm7J5Zr\\nCku9E/lqyComGoKdWYu9YjCXrvCjACiXMoV93FtaTlo+0fq6jdd65bfmgzZYgo4O\\nK0CR1UZVFkWpKYWhhd5Zkk+1jQW7xYhuqCuNfqN5EcrHbVniTEQj+igtkDCPzj/W\\nTbKGjwoTjW6njdApr83Ht6wsmPA8AqcF03Exw6N3UjO6FEWvCFqF91TkJNX0yd0c\\nzQyzv6CrAgMBAAECggEAJiGM29BxXVVKipMD03vklizeSN08s8eEel0qty5NHKNN\\nZ805Tm9+dvcAfd+GXS9M2jDfv9gajavWbO6II03x1v0hAuqFn0G9e52xdTGh8A3V\\nCcUITwTb4TuFOAdpCEqZEMMMbZk2nzsHuZuinh45Yy56uLhYVgpKJuc9iAMk+SBm\\nvpjjz5HE9v8CMnUOQKQtbQWgRrP1VqGnfV4PGLvt17CkW7aiqcMKEX304ks4+YkG\\nf0ChPHGS7NK6RtGzCwGTyo32RuUYQ/dyyycJZ+pGTuxql+MSHbk+gC4nCTcWr85B\\ncpSVZJlk01fJLPl5Q+3lP7GTE7vmWJi8eoEfUHQvAQKBgQDpl++ouGD25UyIzQhi\\nyCcPYmxeUaw/TrhG8H4S59dZTVadSehJT+fCmnpXOx6OvPHOUEa/c0DuzF7fZ/cS\\nqqux9yeYehbGJHOve7ExW4T8M0QO9KmsIvKi+R0b7K4kdmIlVHyr6Q32hFSEXOxf\\nA1v0dcwN6fRJPwlT18LV+oPFAQKBgQDFfZe3qq0M4pa1CNXUNRKXct1Te79mRRgr\\nWd2lmvI4d3P4E+GJ/jNPB2lysN6NNTFpwVsqFi7pgp/wtQRvbfaZr6Dg0Z9eDLsb\\nbHmV6MgN1eYCn/wTGhaKC7kxzv4Prj0aDLet3RR/vDeAs0oakuo/P5s8GTHB4EYw\\nNk5+Nc4JqwKBgQCzzueE+UBybHjoSOMunqEqf3mpdLbhGGhS+uYhCWND83s7odtz\\nK1Xb/2sy4GgaOajsRfDfiAkwiBJzZ6TRMpztZbGN9lS3evGt38m6k5cfRxsZZA2D\\nWndpKdbVWu+FU7ciwxEgh0nfO2ePZ7PvQzeySkajYzZOd35nkosAiVCLAQKBgC/O\\nDwOulOUhlEmOMfSERFPUwi6LLfGbmBYmUrjboPZ6M+BBL78vgUwIB0Zz+etEjQmE\\nfITbic+MhxrFNqWigKcDFHZXR7SEcGZbA7N9/a8br+nCwEn/bqVL4TBlYqp5CuFb\\nYrr7YRLqhKTqwW1dUsaspu8NSjYcC+Fvw+BZNd6xAoGBAL4l5Ul1a96zeiIkPYNY\\nbpvm9m/miU9F78KYHnQdABKigPpB5uFvsQ34Ova7rrf8/+Sc+QAiPc7ilMQaLuLx\\nlonEH0fPrMMUYMFs4KzWxwswdzLCzwQKbsFAbPuclm0ncY3rrpkST/oGe0yyIvBo\\nQeM8gAuTwvHAO0O0n8RennqY\\n-----END PRIVATE KEY-----\\n",
+                "editable": true
+            },
+            {
+                "key": "GOOGLE_CLIENT_EMAIL",
+                "value": "tfm-818@deep-sun-346308.iam.gserviceaccount.com",
+                "editable": true
+            },
+            {
+                "key": "GOOGLE_CLIENT_ID",
+                "value": "111919952112944000615",
+                "editable": true
             }
         ]
     },
+    "network": "##PUBLIC_NETWORK##",
     "outputs": [],
-    "image": "interlinkproject/interlinker-googledrive:master",
-    "labels": {}
+    "image": "interlinkproject/interlinker-googledrive:master"
 }

@@ -2,7 +2,7 @@
     "key": "mongodb",
     "show": false,
     "configuration": {
-        "system": [
+        "environment": [
             {
                 "key": "MONGODB_USERNAME",
                 "value": "user"

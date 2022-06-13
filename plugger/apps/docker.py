@@ -1,5 +1,7 @@
+from ctypes import Union
 import docker
 from docker.models.containers import Container
+from docker.models.networks import Network
 from docker.errors import NotFound
 import os
 from core.catalogue import PLUGINS_LIST, DOMAIN, PROTOCOL
@@ -20,20 +22,25 @@ class NetworkManager:
     def list(self):
         return docker_client.networks.list()
 
-    def get(self, id):
+    def get(self, id: str):
         return docker_client.networks.get(id)
 
-    def create(self, name):
-        print("Creating network", name)
-        obj = docker_client.networks.create(name=name, scope="global" if COMPOSE else "swarm")
-        self.resume[name] = obj.id
+    def connect(self, network, container):
+        if type(network) != Network:
+            network = self.get(id=network)
+        return network.connect(container)
 
-    def remove(self, name):
-        print("Removing network", name)
-        obj = self.get(self.resume[name])
-        if obj:
-            obj.remove()
-        del self.resume[name]
+    def create(self, name: str):
+        print("Creating network", name)
+        return docker_client.networks.create(name=name, scope="global" if COMPOSE else "swarm")
+
+    def remove(self, network):
+        if type(network) != Network:
+            network = self.get(network)
+        
+        print("Removing network", network.name)
+        if network:
+            return network.remove()
 
 network_manager = NetworkManager()
 
@@ -52,21 +59,24 @@ class ServiceManager:
             return docker_client.containers.list()
         return docker_client.services.list()
 
-    def get(self, id):
+    def get(self, id: str):
         if COMPOSE:
             return docker_client.containers.get(id)
         return docker_client.services.get(id)
 
     def start(self, name, plugin: dict, env: list):
+        # Check if already exists a container with the name in parameters and remove it
         try:
             existent = self.get(name)
-            self.remove(existent)
+            self.remove(container=existent)
         except NotFound:
             pass
-
+        
+        # Pull docker image (can be false to use local images)
         if plugin.get("pull", True):
             docker_client.images.pull(plugin.get("image"))
 
+        # Check the dependencies of the container and start them
         for dependency_name in plugin.get("dependencies", []):
             dependency = PLUGINS_LIST[dependency_name]
 
@@ -74,15 +84,18 @@ class ServiceManager:
                 self.get(dependency_name)
                 print(f"Dependency {dependency_name} already started")
             except NotFound:
-                depenv = [i["key"] + "=" + i["value"] for i in dependency.get("configuration", {}).get("system", [])]
+                depenv = [i["key"] + "=" + i["value"] for i in dependency.get("configuration", {}).get("environment", [])]
                 self.start(name=dependency_name, plugin=dependency, env=depenv)              
 
+        # Start
         print("Starting service", name)
+
+        # Create the network if it does not exist
         net_name = plugin.get("network")
         if not network_manager.get(net_name):
             network_manager.create(name=net_name)
 
-        # If in compose
+        # Add the labels for the traefik routing if needed
         labels = plugin.get("labels", {})
         
         if traefik_conf := plugin.get("configuration", {}).get("routing", {}).get("traefik", {}):
@@ -95,7 +108,11 @@ class ServiceManager:
             if strip:
                 labels[f"traefik.http.middlewares.{name}-stripprefix.stripprefix.prefixes"] = prefix
                 labels[f"traefik.http.routers.tfm-{name}.middlewares"] = f"{name}-stripprefix"
+        
+        # Map the ports structure
+        ports = {mapping["from"]:mapping["to"] for mapping in plugin.get("configuration", {}).get("routing", {}).get("ports", [])}
 
+        # If in compose, create a container
         if COMPOSE:
             labels["com.docker.compose.project"] = self.compose_project
             return docker_client.containers.run(
@@ -104,23 +121,26 @@ class ServiceManager:
                 name=name,
                 labels=labels,
                 environment=env,
+                ports=ports,
                 network=net_name
             )
-        # If in swarm
+        # If in swarm, create a service
         return docker_client.services.create(
             image=plugin.get("image"),
             name=name,
-            labels=plugin.get("labels"),
+            labels=plugin.get("labels", None),
+            ports=ports,
             environment=env,
             networks=[net_name]
         )
 
-    def remove(self, id):
+    def remove(self, container):
         try:
-            obj = self.get(id)
-            print("Removing service", obj.name)
-            obj.stop()
-            obj.remove()
+            if type(container) != Container:
+                container = self.get(container)
+            print("Removing service", container.name)
+            container.stop()
+            container.remove()
         except NotFound:
             pass
 
@@ -129,17 +149,26 @@ class ServiceManager:
         started = []
         notstarted = []
         
+        containers = self.list()
+
         for name, plugin in PLUGINS_LIST.items():
             plugin["name"] = name
-            if plugin.get("show", True):
-                for container in self.list():
-                    if plugin.get("image") in container.image.attrs.get("RepoTags"):
-                        if traefik_conf := plugin.get("configuration", {}).get("routing", {}).get("traefik", {}):
-                            plugin["route"] = PROTOCOL + DOMAIN + traefik_conf.get("prefix")
-                        started.append(plugin)
-                        break
-                else:
-                    notstarted.append(plugin)
+            if not plugin.get("show", True):
+                continue
+
+            for container in containers:
+                if plugin.get("image") in container.image.attrs.get("RepoTags"):
+                    
+                    if traefik_conf := plugin.get("configuration", {}).get("routing", {}).get("traefik", {}):
+                        plugin["route"] = PROTOCOL + DOMAIN + traefik_conf.get("prefix")
+                    
+                    elif ports_conf := plugin.get("configuration", {}).get("routing", {}).get("ports", {}):
+                        plugin["route"] = PROTOCOL + DOMAIN + ":" + ports_conf[0].get("to")
+                    
+                    started.append(plugin)
+                    break
+            else:
+                notstarted.append(plugin)
             
         return started, notstarted
 

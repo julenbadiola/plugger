@@ -1,0 +1,45 @@
+{
+    "key": "drupalmariadb",
+    "show": false,
+    "dependencies": [],
+    "configuration": {
+        "environment": [
+            {
+                "key": "MYSQL_ROOT_PASSWORD",
+                "value": "secret"
+            },
+            {
+                "key": "MYSQL_DATABASE",
+                "value": "##DRUPAL_MYSQL_DATABASE##"
+            },
+            {
+                "key": "MYSQL_USER",
+                "value": "##DRUPAL_MYSQL_USER##"
+            },
+            {
+                "key": "MYSQL_PASSWORD",
+                "value": "##DRUPAL_MYSQL_PASSWORD##"
+            }
+        ]
+    },
+    "outputs": [
+        {
+            "key": "DRUPAL_MYSQL_DATABASE",
+            "value": "drupal"
+        },
+        {
+            "key": "DRUPAL_MYSQL_USER",
+            "value": "manager"
+        },
+        {
+            "key": "DRUPAL_MYSQL_PASSWORD",
+            "value": "secret"
+        },
+        {
+            "key": "DRUPAL_MYSQL_HOST",
+            "value": "drupalmariadb"
+        }
+    ],
+    "network": "##PUBLIC_NETWORK##",
+    "image": "mariadb:10.3.9"
+}
