@@ -8,7 +8,7 @@ from django.http import HttpResponse
 from django.shortcuts import redirect, render
 from django.template import loader
 from apps.utils import anonymous_required
-from apps.catalogue import PLUGINS_LIST
+from core.catalogue import PLUGINS_LIST
 from .forms import LoginForm
 from django.http import JsonResponse
 

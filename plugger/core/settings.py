@@ -32,9 +32,6 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'corsheaders',
     'apps.home',
-    
-    # Modules
-    'import_export'
 ]
 
 MIDDLEWARE = [
@@ -138,21 +135,9 @@ EMAIL_PORT = config("EMAIL_PORT", default=587)
 EMAIL_HOST_USER = config("EMAIL_HOST_USER", default="")
 EMAIL_HOST_PASSWORD = config("EMAIL_HOST_PASSWORD", default="")
 DEFAULT_FROM_EMAIL = 'testing@example.com'
-# Password Reset Configuration
-
-PASSWORD_RESET_TIMEOUT = 86400  # 1 day in seconds
-
-# User Email Confirmation configurations
-
-EMAIL_CONFIRMATION = config("EMAIL_CONFIRMATION", default=False, cast=bool)
-
-# Default image storage
-
-DEFAULT_FILE_IMAGE_STORAGE = config("DEFAULT_FILE_IMAGE_STORAGE", default='uploads')
 
 MEDIA_URL = "/media/"
 MEDIA_ROOT = os.path.join(CORE_DIR, 'apps/static/media')
-
 
 #############################################################
 #############################################################

@@ -2,7 +2,7 @@ import docker
 from docker.models.containers import Container
 from docker.errors import NotFound
 import os
-from apps.catalogue import PLUGINS_LIST, DOMAIN, PROTOCOL
+from core.catalogue import PLUGINS_LIST, DOMAIN, PROTOCOL
 
 COMPOSE = os.getenv('MODE', "compose") == "compose"
 # "compose" or "swarm"
@@ -36,6 +36,7 @@ class NetworkManager:
         del self.resume[name]
 
 network_manager = NetworkManager()
+
 class ServiceManager:
     resume = {}
 
@@ -62,9 +63,10 @@ class ServiceManager:
             self.remove(existent)
         except NotFound:
             pass
-        docker_client.images.pull(plugin.get("image"))
 
-        # started_dependencies = []
+        if plugin.get("pull", True):
+            docker_client.images.pull(plugin.get("image"))
+
         for dependency_name in plugin.get("dependencies", []):
             dependency = PLUGINS_LIST[dependency_name]
 

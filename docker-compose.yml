@@ -66,7 +66,6 @@ services:
   plugger:
     image: julenbadiola/plugger:master
     container_name: plugger
-    restart: always
     env_file: .env
     environment:
       - MODE=swarm
@@ -88,25 +87,26 @@ services:
       #   - traefik.http.routers.tfm-plugger-http.rule=PathPrefix(`/`)
       #   - traefik.http.services.tfm-plugger.loadbalancer.server.port=5050
 
-  core:
-    image: julenbadiola/core:master
-    container_name: core
-    build: ./core
-    environment:
-      - NODE_ENV=development
-      - PORT=3000
-    restart: always
-    volumes:
-      - ./core:/app
-    networks:
-      - net
-    labels:
-      - traefik.enable=true
-      - traefik.docker.network=${NETWORK_NAME}
-      - traefik.http.routers.tfm-core-http.rule=PathPrefix(`/`)
-      - traefik.http.services.tfm-core.loadbalancer.server.port=3000
+  # core:
+  #   image: julenbadiola/core:master
+  #   container_name: core
+  #   build: ./core
+  #   environment:
+  #     - NODE_ENV=development
+  #     - PORT=3000
+  #   restart: always
+  #   volumes:
+  #     - ./core:/app
+  #   networks:
+  #     - net
+  #   labels:
+  #     - traefik.enable=true
+  #     - traefik.docker.network=${NETWORK_NAME}
+  #     - traefik.http.routers.tfm-core-http.rule=PathPrefix(`/`)
+  #     - traefik.http.services.tfm-core.loadbalancer.server.port=3000
 
 # variable network name https://github.com/docker/compose/issues/6808
 networks:
   net:
     name: ${NETWORK_NAME}
+    external: true
