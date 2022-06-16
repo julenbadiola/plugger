@@ -25,13 +25,13 @@ services:
       - traefik.http.services.tfm-traefik-public.loadbalancer.server.port=80
 
   plugger:
-    image: julenbadiola/plugger:master
-    build: ./plugger
+    image: badiolajulen/plugger:master
+    build: ./app
     ports:
       - 5005:5005
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock:ro
-      - ./plugger:/app
+      - ./app:/app
       - ./plugins:/app/core/plugins
     environment:
       - MODE=compose

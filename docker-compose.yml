@@ -64,7 +64,7 @@ services:
         - traefik.http.routers.tfm-proxy-http.middlewares=tfm-www-redirect,tfm-https-redirect
 
   plugger:
-    image: julenbadiola/plugger:master
+    image: badiolajulen/plugger:master
     container_name: plugger
     env_file: .env
     environment:

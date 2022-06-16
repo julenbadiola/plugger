@@ -1,7 +1,7 @@
 FROM python:3.9-slim-bullseye
 
+COPY ./app /app
 WORKDIR /app
-COPY . .
 
 # set environment variables
 ENV PYTHONDONTWRITEBYTECODE 1
