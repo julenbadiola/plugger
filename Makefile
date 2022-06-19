@@ -14,11 +14,16 @@ build: ## Builds containers
 
 .PHONY: dev
 dev: down ## Starts development containers
-	docker-compose -f docker-compose.yml -f docker-compose.dev.yml up -d
+	docker-compose up -d
+
+.PHONY: swarm
+swarm: down ## Starts development containers
+	docker stack rm stackdemo
+	(echo -e "version: '3.8'\n";  docker compose -f docker-compose.yml -f docker-compose.swarm.yml --env-file .env.swarm config) | docker stack deploy --compose-file - stackdemo
 
 .PHONY: prod
 prod: down ## Starts production containers
-	docker-compose up -d
+	docker-compose up  -f docker-compose.yml -f docker-compose.prod.yml -d
 
 .PHONY: documentation
 documentation: ## Build documentation

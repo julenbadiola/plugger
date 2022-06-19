@@ -1,0 +1,40 @@
+version: '3.8'
+services:
+  proxy:
+    networks:
+      - net
+    command:
+      # Enable Docker in Traefik, so that it reads labels from Docker services
+      - --providers.docker
+      # Do not expose all Docker services, only the ones explicitly exposed
+      - --providers.docker.exposedbydefault=false
+      # Enable Docker Swarm mode
+      - --providers.docker.swarmmode
+      # Enable the access log, with HTTP requests
+      - --accesslog
+      # Enable the Traefik log, for configurations and errors
+      - --log
+      # Enable the Dashboard and API
+      - --api
+    deploy:
+      placement:
+        constraints:
+          - node.role == manager
+      labels:
+        - traefik.docker.network=${NETWORK_NAME}
+        - traefik.http.routers.tfm-${NETWORK_NAME}-http.rule=Host(`${DOMAIN?Variable not set}`)
+        - traefik.http.services.tfm-${NETWORK_NAME}.loadbalancer.server.port=80
+
+  plugger:
+    env_file: .env.swarm
+    command: ./entry-prod.sh
+    deploy:
+      mode: replicated
+      replicas: 1
+      placement:
+        constraints:
+          - node.role == manager
+
+networks:
+  net:
+    name: ${NETWORK_NAME}

@@ -44,10 +44,11 @@ class NetworkManager:
 
 network_manager = NetworkManager()
 
-def get_environment(plugin, request_data):
+def get_environment(plugin, additional_environment_variables):
     # Get environment variables of the plugin
     env_list = plugin.get("configuration", {}).get("environment", [])
     
+    print(plugin, additional_environment_variables, env_list)
     # Create a env list for all the environment variables
     env = []
     for environment_variable in env_list:
@@ -55,7 +56,7 @@ def get_environment(plugin, request_data):
         value = ""
         # first check if in POST data if the variable is editable
         if environment_variable.get("editable", False):
-            if form_value := request_data.get(key, None):
+            if form_value := additional_environment_variables.get(key, None):
                 value = form_value
                 
         # If not value, get the value by default
@@ -88,7 +89,7 @@ class ServiceManager:
             return docker_client.containers.get(id)
         return docker_client.services.get(id)
 
-    def start(self, name, plugin: dict, request_data: dict):
+    def start(self, name, plugin: dict, additional_environment_variables: dict):
         # Check if already exists a container with the name in parameters and remove it
         try:
             existent = self.get(name)
@@ -108,7 +109,7 @@ class ServiceManager:
                 self.get(dependency_name)
                 print(f"Dependency {dependency_name} already started")
             except NotFound:
-                self.start(name=dependency_name, plugin=dependency, request_data={})              
+                self.start(name=dependency_name, plugin=dependency, additional_environment_variables={})              
 
         # Start
         print("Starting service", name)
@@ -145,7 +146,7 @@ class ServiceManager:
                 detach=True,
                 name=name,
                 labels=labels,
-                environment=get_environment(plugin, request_data),
+                environment=get_environment(plugin, additional_environment_variables),
                 ports=ports,
                 network=net_name
             )
@@ -155,7 +156,7 @@ class ServiceManager:
             name=name,
             labels=plugin.get("labels", None),
             ports=ports,
-            environment=get_environment(plugin, request_data),
+            environment=get_environment(plugin, additional_environment_variables),
             networks=[net_name]
         )
 
