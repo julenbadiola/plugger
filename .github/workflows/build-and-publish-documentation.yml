@@ -3,10 +3,10 @@ name: build-and-publish
 on:
   workflow_dispatch:
   push:
-    tags:
-      - '*'
     branches:
       - master
+    paths:
+      - ./docs/**
 
 jobs:
   docker:
