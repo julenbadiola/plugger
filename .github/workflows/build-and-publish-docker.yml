@@ -44,6 +44,12 @@ jobs:
           cache-from: type=registry,ref=badiolajulen/plugger:buildcache
           cache-to: type=registry,ref=badiolajulen/plugger:buildcache,mode=max
 
+      - name: Deploy documentation
+        uses: JamesIves/github-pages-deploy-action@v4.3.3
+        with:
+          branch: documentation
+          folder: docs/html
+
       - name: Build and push Docker Image Documentation
         id: docker_build_frontend_docs
         uses: docker/build-push-action@v2
