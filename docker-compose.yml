@@ -27,9 +27,9 @@ services:
       labels:
         # Enable Traefik for this service, to make it available in the public network
         - traefik.enable=true
-        # Use the traefik-public network (declared below)
+        # Use the ${NETWORK_NAME} network (declared below)
         - traefik.docker.network=${NETWORK_NAME}
-        # Use the custom label "traefik.constraint-label=traefik-public"
+        # Use the custom label "traefik.constraint-label=${NETWORK_NAME}"
         # This public Traefik will only use services with this label
         # traefik-http set up only to use the middleware to redirect to https
         - traefik.http.middlewares.tfm-https-redirect.redirectscheme.scheme=https

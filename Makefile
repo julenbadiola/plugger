@@ -12,8 +12,12 @@ down: ## Stops all containers
 build: ## Builds containers
 	docker-compose build
 
-.PHONY: up
-up: down ## Starts development containers
+.PHONY: dev
+dev: down ## Starts development containers
+	docker-compose up -d -f docker-compose.dev.yml
+
+.PHONY: prod
+prod: down ## Starts production containers
 	docker-compose up -d
 
 .PHONY: test
