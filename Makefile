@@ -14,11 +14,15 @@ build: ## Builds containers
 
 .PHONY: dev
 dev: down ## Starts development containers
-	docker-compose up -d -f docker-compose.dev.yml
+	docker-compose -f docker-compose.yml -f docker-compose.dev.yml up -d
 
 .PHONY: prod
 prod: down ## Starts production containers
 	docker-compose up -d
+
+.PHONY: documentation
+documentation: ## Build documentation
+	cd docs && ./build.sh
 
 .PHONY: test
 test: ## Starts tests

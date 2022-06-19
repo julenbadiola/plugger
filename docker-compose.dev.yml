@@ -25,11 +25,12 @@ services:
       - traefik.http.services.tfm-${NETWORK_NAME}.loadbalancer.server.port=80
 
   docs:
+    container_name: docs
     build: ./docs
     networks:
-      - ${NETWORK_NAME}
+      - net
     volumes:
-      - ./build/html:/usr/share/nginx/html
+      - ./docs/html:/usr/share/nginx/html
     labels:
       - traefik.enable=true
       - traefik.docker.network=${NETWORK_NAME}

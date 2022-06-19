@@ -44,21 +44,13 @@ jobs:
           cache-from: type=registry,ref=badiolajulen/plugger:buildcache
           cache-to: type=registry,ref=badiolajulen/plugger:buildcache,mode=max
 
-      - name: Deploy documentation
+      - name: Build documentation
+        run: |
+          pip3 install -r docs/requirements.txt
+          make documentation
+
+      - name: Deploy documentation to GitHub pages
         uses: JamesIves/github-pages-deploy-action@v4.3.3
         with:
           branch: documentation
           folder: docs/html
-
-      - name: Build and push Docker Image Documentation
-        id: docker_build_frontend_docs
-        uses: docker/build-push-action@v2
-        with:
-          context: ./docs
-          file: Dockerfile
-          push: true
-          tags: |
-            badiolajulen/plugger-docs:${{ github.ref_name }}
-            badiolajulen/plugger-docs:${{ github.ref_name }}.${{ steps.date.outputs.date }}
-          cache-from: type=registry,ref=badiolajulen/plugger-docs:buildcache
-          cache-to: type=registry,ref=badiolajulen/plugger-docs:buildcache,mode=max
