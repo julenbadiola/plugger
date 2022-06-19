@@ -11,7 +11,7 @@ on:
       - ./app/**
       - ./plugins/**
       - Dockerfile
-      - *.yml
+      - "*.yml"
       - Makefile
 
 jobs:
