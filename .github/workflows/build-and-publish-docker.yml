@@ -1,4 +1,4 @@
-name: build-and-publish
+name: build-and-publish-docker
 
 on:
   workflow_dispatch:
@@ -49,20 +49,3 @@ jobs:
             badiolajulen/plugger:${{ github.ref_name }}.${{ steps.date.outputs.date }}
           cache-from: type=registry,ref=badiolajulen/plugger:buildcache
           cache-to: type=registry,ref=badiolajulen/plugger:buildcache,mode=max
-  
-  documentation:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v2
-
-      - name: Build documentation
-        run: |
-          pip3 install -r docs/requirements.txt
-          make documentation
-
-      - name: Deploy documentation to GitHub pages
-        uses: JamesIves/github-pages-deploy-action@v4.3.3
-        with:
-          branch: documentation
-          folder: docs/html
