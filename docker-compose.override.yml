@@ -26,7 +26,7 @@ services:
 
   plugger:
     image: badiolajulen/plugger:master
-    build: ./app
+    build: .
     ports:
       - 5005:5005
     volumes:
@@ -41,20 +41,3 @@ services:
     #   - traefik.docker.network=${NETWORK_NAME}
     #   - traefik.http.routers.tfm-plugger-http.rule=PathPrefix(`/`)
     #   - traefik.http.services.tfm-plugger.loadbalancer.server.port=5005
-
-  # core:
-  #   image: julenbadiola/core:master
-  #   container_name: core
-  #   build: ./core
-  #   environment:
-  #     - NODE_ENV=development
-  #     - SERVER_NAME=${DOMAIN}
-  #     - PORT=80
-  #   restart: always
-  #   volumes:
-  #     - ./core:/app
-  #   labels:
-  #     - traefik.enable=true
-  #     - traefik.docker.network=${NETWORK_NAME}
-  #     - traefik.http.routers.tfm-core-http.rule=PathPrefix(`/`)
-  #     - traefik.http.services.tfm-core.loadbalancer.server.port=80

@@ -17,7 +17,7 @@ class NetworkManager:
     def __init__(self) -> None:
         for network in self.list():
             self.resume[network.name] = network.id
-        print(self.resume)
+        # print(self.resume)
 
     def list(self):
         return docker_client.networks.list()
@@ -44,6 +44,30 @@ class NetworkManager:
 
 network_manager = NetworkManager()
 
+def get_environment(plugin, request_data):
+    # Get environment variables of the plugin
+    env_list = plugin.get("configuration", {}).get("environment", [])
+    
+    # Create a env list for all the environment variables
+    env = []
+    for environment_variable in env_list:
+        key = environment_variable["key"]
+        value = ""
+        # first check if in POST data if the variable is editable
+        if environment_variable.get("editable", False):
+            if form_value := request_data.get(key, None):
+                value = form_value
+                
+        # If not value, get the value by default
+        if not value:
+            value = environment_variable.get("value", None)
+        
+        # If there is no value yet and the variable is not optional, raise Exception
+        if not value and not environment_variable.get("optional", False):
+            raise Exception(f"Value for {key} not present")
+        env.append(key + "=" + value)
+    return env
+
 class ServiceManager:
     resume = {}
 
@@ -52,7 +76,7 @@ class ServiceManager:
             self.resume[service.name] = service.id
             if COMPOSE and service.name == "plugger":
                 self.compose_project = service.labels.get("com.docker.compose.project")
-        print(self.resume)
+        # print(self.resume)
 
     def list(self):
         if COMPOSE:
@@ -64,7 +88,7 @@ class ServiceManager:
             return docker_client.containers.get(id)
         return docker_client.services.get(id)
 
-    def start(self, name, plugin: dict, env: list):
+    def start(self, name, plugin: dict, request_data: dict):
         # Check if already exists a container with the name in parameters and remove it
         try:
             existent = self.get(name)
@@ -84,16 +108,17 @@ class ServiceManager:
                 self.get(dependency_name)
                 print(f"Dependency {dependency_name} already started")
             except NotFound:
-                depenv = [i["key"] + "=" + i["value"] for i in dependency.get("configuration", {}).get("environment", [])]
-                self.start(name=dependency_name, plugin=dependency, env=depenv)              
+                self.start(name=dependency_name, plugin=dependency, request_data={})              
 
         # Start
         print("Starting service", name)
 
         # Create the network if it does not exist
         net_name = plugin.get("network")
-        if not network_manager.get(net_name):
-            network_manager.create(name=net_name)
+        try:
+            net = network_manager.get(net_name)
+        except NotFound:
+            net = network_manager.create(name=net_name)
 
         # Add the labels for the traefik routing if needed
         labels = plugin.get("labels", {})
@@ -120,7 +145,7 @@ class ServiceManager:
                 detach=True,
                 name=name,
                 labels=labels,
-                environment=env,
+                environment=get_environment(plugin, request_data),
                 ports=ports,
                 network=net_name
             )
@@ -130,7 +155,7 @@ class ServiceManager:
             name=name,
             labels=plugin.get("labels", None),
             ports=ports,
-            environment=env,
+            environment=get_environment(plugin, request_data),
             networks=[net_name]
         )
 

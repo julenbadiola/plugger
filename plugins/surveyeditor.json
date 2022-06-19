@@ -17,7 +17,7 @@
         },
         "action_text": "Create a new survey"
     },
-    "dependencies": ["mongodb", "core"],
+    "dependencies": ["mongodb"],
     "configuration": {
         "routing": {
             "traefik": {

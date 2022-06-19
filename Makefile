@@ -15,3 +15,8 @@ build: ## Builds containers
 .PHONY: up
 up: down ## Starts development containers
 	docker-compose up -d
+
+.PHONY: test
+test: ## Starts tests
+	# docker run --rm -it --name testing -v $(pwd):/app badiolajulen/plugger:master python3 manage.py test
+	docker exec plugger python3 manage.py test

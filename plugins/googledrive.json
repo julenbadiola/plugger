@@ -19,8 +19,7 @@
         "action_text": "Create a new Google Drive resource"
     },
     "dependencies": [
-        "mongodb",
-        "core"
+        "mongodb"
     ],
     "configuration": {
         "routing": {
