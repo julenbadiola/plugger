@@ -19,7 +19,7 @@
   <p align="center">
     An awesome README template to jumpstart your projects!
     <br />
-    <a href="https://github.com/julenbadiola/plugger"><strong>Explore the docs »</strong></a>
+    <a href="https://julenbadiola.github.io/plugger/"><strong>Explore the docs »</strong></a>
     <br />
     <br />
     <a href="https://github.com/julenbadiola/plugger/issues">Report Bug</a>
@@ -42,38 +42,9 @@ Plugger is a tool that allows you to quickly, easily, and customisably launch we
 * [Docker Python SDK](https://pypi.org/project/docker/)
 
 
+## Documentation
 
-
-<!-- GETTING STARTED -->
-## Getting Started
-
-### Prerequisites
-
-* Docker
-* Docker compose
-
-### Installation
-
-1. Clone the repo
-   ```sh
-   git clone https://github.com/julenbadiola/plugger
-   ```
-2. Run the docker-compose
-   ```sh
-   make dev
-   ```
-   or
-
-   ```sh
-   docker-compose up -d -f docker-compose.dev.yml
-   ```
-
-
-<!-- USAGE EXAMPLES -->
-## Usage
-
-You can customize the plugins available by adding json files to the /plugins directory.
-
+Check https://julenbadiola.github.io/plugger/ for the complete documentation
 
 <!-- CONTRIBUTING -->
 ## Contributing
