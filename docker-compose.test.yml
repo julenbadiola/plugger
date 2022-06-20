@@ -59,7 +59,7 @@ services:
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock:ro
       - ./app:/app
-      - ./plugins:/app/plugins
+      - ./services:/app/services
     command: ./entry-dev.sh
     networks:
       - net

@@ -8,20 +8,20 @@ DOMAIN = "localhost"
 OUTPUTS = {
     "DOMAIN": DOMAIN,
     "PROTOCOL": PROTOCOL,
-    "COMPLETE_PATH": "http://localhost",
+    "COMPLETE_PATH": PROTOCOL + DOMAIN,
     "PUBLIC_NETWORK": os.getenv("NETWORK_NAME")
 }
 
 ALL = {}
 
-# Iterates among json files in /plugins folder
-for path in Path("/app/plugins").glob('**/*.json'):
+# Iterates among json files in /services folder
+for path in Path("/app/services").glob('**/*.json'):
     f = open( str(path))
     data = json.load(f)
     ALL[data["key"]] = data
     f.close()
 
-# Get outputs of all plugins
+# Get outputs of all services
 for k, v in ALL.items():
     variables = v.get("outputs", [])
     for var in variables:
@@ -48,4 +48,4 @@ def substitute(obj):
         return obj
 
 # Substitutes the references to outputs
-PLUGINS_LIST = substitute(ALL)
+SERVICES_LIST = substitute(ALL)

@@ -1,7 +1,7 @@
 # -*- encoding: utf-8 -*-
 from django.test import TestCase
 from core.docker import manager
-from apps.catalogue.plugins import PLUGINS_LIST
+from apps.catalogue.services import SERVICES_LIST
 
 # https://devblogs.microsoft.com/python/announcing-playwright-for-python-reliable-end-to-end-testing-for-the-web/
 
@@ -15,7 +15,7 @@ class CatalogueTest(TestCase):
         self.assertFalse(self.container_to_start in [
                          container.name for container in manager.list()])
         manager.start(self.container_to_start,
-                      PLUGINS_LIST[self.container_to_start], {})
+                      SERVICES_LIST[self.container_to_start], {})
         self.assertTrue(self.container_to_start in [
                         container.name for container in manager.list()])
 

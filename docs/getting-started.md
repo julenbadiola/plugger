@@ -1,5 +1,5 @@
-# Plugins
+# Services
 
 The aim of Plugger is to be able to start web services on demand. 
 
-## Adding new plugins to the catalogue
+## Adding new services to the catalogue

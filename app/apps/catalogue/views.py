@@ -3,7 +3,7 @@
 from core.docker import manager
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render
-from apps.catalogue.plugins import PLUGINS_LIST
+from apps.catalogue.services import SERVICES_LIST
 from django.http import JsonResponse
 
 
@@ -14,7 +14,7 @@ def status(request):
 
 @login_required(login_url="/login")
 def catalogue_json(request):
-    return JsonResponse(PLUGINS_LIST, safe=False)
+    return JsonResponse(SERVICES_LIST, safe=False)
 
 
 @login_required(login_url="/login")
@@ -27,7 +27,7 @@ def catalogue(request):
             manager.remove(container=stop)
         else:
             name = request.POST.get("name")
-            plugin = PLUGINS_LIST[name]
+            plugin = SERVICES_LIST[name]
 
             manager.start(
                 name=name,

@@ -4,7 +4,7 @@ from docker.models.containers import Container
 from docker.models.networks import Network
 from docker.errors import NotFound
 import os
-from apps.catalogue.plugins import PLUGINS_LIST, DOMAIN, PROTOCOL
+from apps.catalogue.services import SERVICES_LIST, DOMAIN, PROTOCOL
 
 COMPOSE = os.getenv('MODE', "compose") == "compose"
 # "compose" or "swarm"
@@ -101,7 +101,7 @@ class ServiceManager:
 
         # Check the dependencies of the container and start them
         for dependency_name in plugin.get("dependencies", []):
-            dependency = PLUGINS_LIST[dependency_name]
+            dependency = SERVICES_LIST[dependency_name]
 
             try:
                 self.get(dependency_name)
@@ -167,7 +167,7 @@ class ServiceManager:
             print("Removing service", container.name)
 
             # dependencies of the container to be removed
-            dependencies = PLUGINS_LIST[container.name].get("dependencies", [])
+            dependencies = SERVICES_LIST[container.name].get("dependencies", [])
             
             container.stop()
             container.remove()
@@ -185,7 +185,7 @@ class ServiceManager:
         
         containers = self.list()
 
-        for name, plugin in PLUGINS_LIST.items():
+        for name, plugin in SERVICES_LIST.items():
             plugin["name"] = name
             if not plugin.get("show", True):
                 continue

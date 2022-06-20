@@ -9,7 +9,7 @@ on:
       - master
     paths:
       - ./app/**
-      - ./plugins/**
+      - ./services/**
       - Dockerfile
       - "*.yml"
       - Makefile
