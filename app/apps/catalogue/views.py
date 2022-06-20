@@ -3,7 +3,7 @@
 from core.docker import manager
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render
-from core.catalogue import PLUGINS_LIST
+from apps.catalogue.plugins import PLUGINS_LIST
 from django.http import JsonResponse
 
 

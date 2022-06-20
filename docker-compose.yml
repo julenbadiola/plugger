@@ -44,12 +44,12 @@ services:
       - traefik.http.routers.docs.rule=Host(`${DOMAIN}`) && PathPrefix(`/docs`)
       - traefik.http.routers.docs.middlewares=docs-stripprefix
       - traefik.http.middlewares.docs-stripprefix.stripprefix.prefixes=/docs
-  
+
   plugger:
     image: badiolajulen/plugger:master
     container_name: plugger
     env_file: .env
-    build: 
+    build:
       context: .
       target: dev
     ports:
@@ -59,7 +59,7 @@ services:
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock:ro
       - ./app:/app
-      - ./plugins:/app/core/plugins
+      - ./plugins:/app/plugins
     command: ./entry-dev.sh
     networks:
       - net
@@ -68,6 +68,55 @@ services:
     #   - traefik.docker.network=${NETWORK_NAME}
     #   - traefik.http.routers.tfm-plugger-http.rule=PathPrefix(`/`)
     #   - traefik.http.services.tfm-plugger.loadbalancer.server.port=5005
+
+  chrome:
+    image: selenium/node-chrome:4.2.2-20220609
+    shm_size: 2gb
+    depends_on:
+      - selenium_hub
+    environment:
+      - SE_EVENT_BUS_HOST=selenium_hub
+      - SE_EVENT_BUS_PUBLISH_PORT=4442
+      - SE_EVENT_BUS_SUBSCRIBE_PORT=4443
+      - VNC_NO_PASSWORD=1
+    networks:
+      - net
+
+  edge:
+    image: selenium/node-edge:4.2.2-20220609
+    shm_size: 2gb
+    depends_on:
+      - selenium_hub
+    environment:
+      - SE_EVENT_BUS_HOST=selenium_hub
+      - SE_EVENT_BUS_PUBLISH_PORT=4442
+      - SE_EVENT_BUS_SUBSCRIBE_PORT=4443
+      - VNC_NO_PASSWORD=1
+    networks:
+      - net
+
+  firefox:
+    image: selenium/node-firefox:4.2.2-20220609
+    shm_size: 2gb
+    depends_on:
+      - selenium_hub
+    environment:
+      - SE_EVENT_BUS_HOST=selenium_hub
+      - SE_EVENT_BUS_PUBLISH_PORT=4442
+      - SE_EVENT_BUS_SUBSCRIBE_PORT=4443
+      - VNC_NO_PASSWORD=1
+    networks:
+      - net
+
+  selenium_hub:
+    image: selenium/hub:4.2.2-20220609
+    container_name: selenium_hub
+    ports:
+      - "4442:4442"
+      - "4443:4443"
+      - "4444:4444"
+    networks:
+      - net
 
 networks:
   net:

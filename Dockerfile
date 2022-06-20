@@ -2,6 +2,7 @@ FROM python:3.10-slim-bullseye as os-base
 ENV PYTHONUNBUFFERED=1
 ENV PYTHONDONTWRITEBYTECODE=1
 RUN apt-get update
+# dependencies to install poetry
 RUN apt-get install -y curl
 
 FROM os-base as poetry-base

@@ -4,7 +4,7 @@ from docker.models.containers import Container
 from docker.models.networks import Network
 from docker.errors import NotFound
 import os
-from core.catalogue import PLUGINS_LIST, DOMAIN, PROTOCOL
+from apps.catalogue.plugins import PLUGINS_LIST, DOMAIN, PROTOCOL
 
 COMPOSE = os.getenv('MODE', "compose") == "compose"
 # "compose" or "swarm"
@@ -47,8 +47,6 @@ network_manager = NetworkManager()
 def get_environment(plugin, additional_environment_variables):
     # Get environment variables of the plugin
     env_list = plugin.get("configuration", {}).get("environment", [])
-    
-    print(plugin, additional_environment_variables, env_list)
     # Create a env list for all the environment variables
     env = []
     for environment_variable in env_list:
@@ -162,11 +160,21 @@ class ServiceManager:
 
     def remove(self, container):
         try:
+            # try to get container object if the parameter is not of container type
             if type(container) != Container:
                 container = self.get(container)
+
             print("Removing service", container.name)
+
+            # dependencies of the container to be removed
+            dependencies = PLUGINS_LIST[container.name].get("dependencies", [])
+            
             container.stop()
             container.remove()
+            
+            # remove unused dependencies
+            for dependency in dependencies:
+                self.remove(dependency)
         except NotFound:
             pass
 

@@ -1,9 +1,9 @@
 # -*- encoding: utf-8 -*-
 
-from core.utils import anonymous_required
+from apps.authentication.utils import anonymous_required
 from django.contrib.auth import authenticate, login
 from django.shortcuts import redirect, render
-from core.utils import anonymous_required
+from apps.authentication.utils import anonymous_required
 from .forms import LoginForm
 from core.settings import LOGIN_REDIRECT_URL
 

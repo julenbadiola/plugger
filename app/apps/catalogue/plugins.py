@@ -15,7 +15,7 @@ OUTPUTS = {
 ALL = {}
 
 # Iterates among json files in /plugins folder
-for path in Path("/app/core/plugins").glob('**/*.json'):
+for path in Path("/app/plugins").glob('**/*.json'):
     f = open( str(path))
     data = json.load(f)
     ALL[data["key"]] = data

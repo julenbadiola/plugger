@@ -3,6 +3,7 @@
 from django.contrib.auth.models import User
 from django.test import TestCase
 from decouple import config
+# https://medium.com/@adamking0126/a-simple-recipe-for-django-development-in-docker-bonus-testing-with-selenium-6a038ec19ba5
 
 ADMIN_USER = config('ADMIN_USER')
 ADMIN_EMAIL = config('ADMIN_EMAIL')

@@ -12,12 +12,16 @@ down: ## Stops all containers
 build: ## Builds containers
 	docker-compose build
 
+############ 
+# Environments
+############
+
 .PHONY: dev
 dev: down ## Starts development containers
 	docker-compose up -d
 
 .PHONY: swarm
-swarm: down ## Starts development containers
+swarm: down ## Starts development containers in swarm mode
 	docker stack rm stackdemo
 	(echo -e "version: '3.8'\n";  docker compose -f docker-compose.yml -f docker-compose.swarm.yml --env-file .env.swarm config) | docker stack deploy --compose-file - stackdemo
 
@@ -25,11 +29,31 @@ swarm: down ## Starts development containers
 prod: down ## Starts production containers
 	docker-compose up  -f docker-compose.yml -f docker-compose.prod.yml -d
 
+############ 
+# DOCUMENTATION
+############
+
 .PHONY: documentation
 documentation: ## Build documentation
 	cd docs && ./build.sh
 
-.PHONY: test
-test: ## Starts tests
-	# docker run --rm -it --name testing -v $(pwd):/app badiolajulen/plugger:master python3 manage.py test
-	docker exec plugger python3 manage.py test
+############ 
+# TESTING
+############
+
+.PHONY: selenium
+selenium: ## Starts selenium containers needed for e2e testing
+	docker-compose -f docker-compose.test.yml down
+	docker-compose -f docker-compose.test.yml up -d
+
+.PHONY: test-unit
+test-unit: ## Starts unit tests
+	docker exec plugger python3 manage.py test --exclude-tag=e2e
+
+.PHONY: test-e2e
+test-e2e: selenium ## Starts e2e tests after starting selenium containers
+	docker exec plugger python3 manage.py test --tag=e2e
+
+.PHONY: test-coverage
+test-coverage: selenium ## Starts tests with coverage measuring
+	docker exec plugger ./test.sh
