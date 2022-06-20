@@ -2,7 +2,7 @@
 
 from django.urls import path
 
-from app.apps.authentication import views
+from app.authentication import views
 from django.contrib.auth import views as auth_views
 
 

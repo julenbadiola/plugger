@@ -3,6 +3,7 @@ from selenium import webdriver
 from selenium.webdriver.common.desired_capabilities import DesiredCapabilities
 from django.test import tag
 
+# PRUEBA ESTE https://github.com/mzdaniel/django-selenium-test-runner/blob/master/tests/polls/tests/selenium/test_complete.py
 
 class SeleniumTest(TestCase):
       @tag('e2e')

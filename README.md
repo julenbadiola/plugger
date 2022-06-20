@@ -19,7 +19,7 @@
 <br />
 <div align="center">
   <a href="https://github.com/julenbadiola/plugger">
-    <img src="app/apps/static/favicon/favicon.png" alt="Logo" width="80" height="80">
+    <img src="app/static/favicon/favicon.png" alt="Logo" width="80" height="80">
   </a>
 
   <h3 align="center">Plugger</h3>

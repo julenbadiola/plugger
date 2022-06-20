@@ -1,7 +1,7 @@
 # -*- encoding: utf-8 -*-
 from django.test import TestCase
 from app.core.docker import manager
-from app.apps.catalogue.services import SERVICES_LIST
+from app.catalogue.services import SERVICES_LIST
 
 # https://devblogs.microsoft.com/python/announcing-playwright-for-python-reliable-end-to-end-testing-for-the-web/
 
