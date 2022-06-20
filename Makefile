@@ -27,7 +27,11 @@ swarm: down ## Starts development containers in swarm mode
 
 .PHONY: prod
 prod: down ## Starts production containers
-	docker-compose up  -f docker-compose.yml -f docker-compose.prod.yml -d
+	docker-compose -f docker-compose.yml -f docker-compose.prod.yml up -d
+
+.PHONY: testing
+testing: down ## Starts production containers
+	docker-compose -f docker-compose.test.yml up -d
 
 ############ 
 # DOCUMENTATION
@@ -41,19 +45,14 @@ documentation: ## Build documentation
 # TESTING
 ############
 
-.PHONY: selenium
-selenium: ## Starts selenium containers needed for e2e testing
-	docker-compose -f docker-compose.test.yml down
-	docker-compose -f docker-compose.test.yml up -d
-
 .PHONY: test-unit
 test-unit: ## Starts unit tests
 	docker exec plugger python3 manage.py test --exclude-tag=e2e
 
 .PHONY: test-e2e
-test-e2e: selenium ## Starts e2e tests after starting selenium containers
+test-e2e: ## Starts e2e tests after starting selenium containers
 	docker exec plugger python3 manage.py test --tag=e2e
 
 .PHONY: test-coverage
-test-coverage: selenium ## Starts tests with coverage measuring
+test-coverage: testing ## Starts tests with coverage measuring
 	docker exec plugger ./test.sh
