@@ -3,6 +3,17 @@
 [![Stargazers][stars-shield]][stars-url]
 [![Issues][issues-shield]][issues-url]
 [![MIT License][license-shield]][license-url]
+
+[![Vulnerabilities](https://sonarcloud.io/api/project_badges/measure?project=julenbadiola_plugger&metric=vulnerabilities)](https://sonarcloud.io/summary/new_code?id=julenbadiola_plugger)
+[![Bugs](https://sonarcloud.io/api/project_badges/measure?project=julenbadiola_plugger&metric=bugs)](https://sonarcloud.io/summary/new_code?id=julenbadiola_plugger)
+[![Security Rating](https://sonarcloud.io/api/project_badges/measure?project=julenbadiola_plugger&metric=security_rating)](https://sonarcloud.io/summary/new_code?id=julenbadiola_plugger)
+[![Maintainability Rating](https://sonarcloud.io/api/project_badges/measure?project=julenbadiola_plugger&metric=sqale_rating)](https://sonarcloud.io/summary/new_code?id=julenbadiola_plugger)
+[![Reliability Rating](https://sonarcloud.io/api/project_badges/measure?project=julenbadiola_plugger&metric=reliability_rating)](https://sonarcloud.io/summary/new_code?id=julenbadiola_plugger)
+[![Code Smells](https://sonarcloud.io/api/project_badges/measure?project=julenbadiola_plugger&metric=code_smells)](https://sonarcloud.io/summary/new_code?id=julenbadiola_plugger)
+[![Lines of Code](https://sonarcloud.io/api/project_badges/measure?project=julenbadiola_plugger&metric=ncloc)](https://sonarcloud.io/summary/new_code?id=julenbadiola_plugger)
+[![Coverage](https://sonarcloud.io/api/project_badges/measure?project=julenbadiola_plugger&metric=coverage)](https://sonarcloud.io/summary/new_code?id=julenbadiola_plugger)
+
+
 [![LinkedIn][linkedin-shield]][linkedin-url]
 
 <br />

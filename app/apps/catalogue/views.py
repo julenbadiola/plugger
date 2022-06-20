@@ -1,9 +1,9 @@
 # -*- encoding: utf-8 -*-
 
-from core.docker import manager
+from app.core.docker import manager
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render
-from apps.catalogue.services import SERVICES_LIST
+from app.apps.catalogue.services import SERVICES_LIST
 from django.http import JsonResponse
 
 

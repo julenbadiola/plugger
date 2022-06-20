@@ -18,7 +18,7 @@ COPY ./app/pyproject.toml ./app/poetry.lock* /app/
 COPY ./app /app
 RUN chmod +x /app/entry-dev.sh
 RUN chmod +x /app/entry-prod.sh
-ENV PYTHONPATH=/app
+ENV PYTHONPATH=/
 COPY ./app /app
 WORKDIR /app
 
