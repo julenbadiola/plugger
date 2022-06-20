@@ -7,7 +7,7 @@ on:
       - master
     paths:
       - ./docs/**
-      - .github/workflows/build-and-publish-docker.yml
+      - .github/workflows/build-and-publish-documentation.yml
 
 jobs:
   documentation:
