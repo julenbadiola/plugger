@@ -5,9 +5,6 @@
 [![MIT License][license-shield]][license-url]
 [![LinkedIn][linkedin-shield]][linkedin-url]
 
-
-
-<!-- PROJECT LOGO -->
 <br />
 <div align="center">
   <a href="https://github.com/julenbadiola/plugger">
@@ -17,7 +14,7 @@
   <h3 align="center">Plugger</h3>
 
   <p align="center">
-    An awesome README template to jumpstart your projects!
+    Create your own catalogue of ready-to-go customizable services!
     <br />
     <a href="https://julenbadiola.github.io/plugger/"><strong>Explore the docs »</strong></a>
     <br />
@@ -28,25 +25,23 @@
   </p>
 </div>
 
-<!-- ABOUT THE PROJECT -->
 ## About The Project
 
 Plugger is a tool that allows you to quickly, easily, and customisably launch web services from a simple, authenticated user interface. It uses Docker's python SDK to interact with the underlying docker compose or docker swarm stack.
 
-[![Plugger Screen Shot][plugger-screenshot]](https://example.com)
+As an administrator, you can customize which of those services can be deployed, or even add new!
 
+[![Plugger Screen Shot][plugger-screenshot]](https://example.com)
 
 ### Built With
 
 * [Django](https://www.djangoproject.com/)
 * [Docker Python SDK](https://pypi.org/project/docker/)
 
-
 ## Documentation
 
 Check https://julenbadiola.github.io/plugger/ for the complete documentation
 
-<!-- CONTRIBUTING -->
 ## Contributing
 
 Contributions are what make the open source community such an amazing place to learn, inspire, and create. Any contributions you make are **greatly appreciated**.
@@ -60,7 +55,6 @@ Don't forget to give the project a star! Thanks again!
 4. Push to the Branch (`git push origin feature/AmazingFeature`)
 5. Open a Pull Request
 
-<!-- LICENSE -->
 ## License
 
 Distributed under the MIT License. See `LICENSE.txt` for more information.
@@ -68,16 +62,16 @@ Distributed under the MIT License. See `LICENSE.txt` for more information.
 
 <!-- MARKDOWN LINKS & IMAGES -->
 <!-- https://www.markdownguide.org/basic-syntax/#reference-style-links -->
-[contributors-shield]: https://img.shields.io/github/contributors/julenbadiola/plugger.svg?style=for-the-badge
+[contributors-shield]: https://img.shields.io/github/contributors/julenbadiola/plugger.svg?style=flat-square&logo=github
 [contributors-url]: https://github.com/julenbadiola/plugger/graphs/contributors
-[forks-shield]: https://img.shields.io/github/forks/julenbadiola/plugger.svg?style=for-the-badge
+[forks-shield]: https://img.shields.io/github/forks/julenbadiola/plugger.svg?style=flat-square&logo=github
 [forks-url]: https://github.com/julenbadiola/plugger/network/members
-[stars-shield]: https://img.shields.io/github/stars/julenbadiola/plugger.svg?style=for-the-badge
+[stars-shield]: https://img.shields.io/github/stars/julenbadiola/plugger.svg?style=flat-square&logo=github
 [stars-url]: https://github.com/julenbadiola/plugger/stargazers
-[issues-shield]: https://img.shields.io/github/issues/julenbadiola/plugger.svg?style=for-the-badge
+[issues-shield]: https://img.shields.io/github/issues/julenbadiola/plugger.svg?style=flat-square&logo=github
 [issues-url]: https://github.com/julenbadiola/plugger/issues
-[license-shield]: https://img.shields.io/github/license/julenbadiola/plugger.svg?style=for-the-badge
+[license-shield]: https://img.shields.io/github/license/julenbadiola/plugger.svg?style=flat-square&logo=github
 [license-url]: https://github.com/julenbadiola/plugger/blob/master/LICENSE.txt
-[linkedin-shield]: https://img.shields.io/badge/-LinkedIn-black.svg?style=for-the-badge&logo=linkedin&colorB=555
+[linkedin-shield]: https://img.shields.io/badge/-My%20LinkedIn%20profile-black.svg?style=flat-square&logo=linkedin&colorB=555
 [linkedin-url]: https://www.linkedin.com/in/julen-badiola-860191183/
 [plugger-screenshot]: screenshot.png

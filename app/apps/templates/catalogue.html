@@ -41,7 +41,7 @@
 
             <form action="" method="post">
               {% csrf_token %}
-              <button type="submit" name="stop" class="btn btn-danger w-100 align-middle"
+              <button type="submit" id="{{plugin.name}}StopButton" name="stop" class="btn btn-danger w-100 align-middle"
                 value="{{plugin.name}}">Stop</button>
             </form>
           </td>
@@ -112,7 +112,7 @@
             </div>
             <div class="modal-footer">
               <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-              <button type="submit" class="btn btn-primary"
+              <button type="submit" id="{{plugin.name}}StartButton" class="btn btn-primary"
                 data-loading-text="<i class='fa fa-spinner fa-spin '></i> Processing Order">Launch</button>
             </div>
           </form>

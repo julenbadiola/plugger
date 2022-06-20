@@ -28,6 +28,9 @@ services:
   plugger:
     env_file: .env.swarm
     command: ./entry-prod.sh
+    build: 
+      context: .
+      target: prod
     deploy:
       mode: replicated
       replicas: 1

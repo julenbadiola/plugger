@@ -49,7 +49,9 @@ services:
     image: badiolajulen/plugger:master
     container_name: plugger
     env_file: .env
-    build: .
+    build: 
+      context: .
+      target: dev
     ports:
       - 5005:5005
     environment:

@@ -60,3 +60,6 @@ services:
   plugger:
     env_file: .env.prod
     command: ./entry-prod.sh
+    build: 
+      context: .
+      target: prod
