@@ -1,0 +1,51 @@
+configuration:
+  environment:
+  - key: MONGODB_URL
+    value: mongodb://##MONGODB_USERNAME##:##MONGODB_PASSWORD##@##MONGODB_HOST##:##MONGODB_PORT##/##MONGODB_DATABASE##?retryWrites=true&w=majority
+  - key: PORT
+    value: '80'
+  - key: PROTOCOL
+    value: '##PROTOCOL##'
+  - key: SERVER_NAME
+    value: '##DOMAIN##'
+  - key: MONGODB_DATABASE
+    value: '##MONGODB_DATABASE##'
+  - key: MODE
+    value: development
+  - key: BASE_PATH
+    value: '##SURVEYEDITOR_BASEPATH##'
+  - key: COLLECTION_NAME
+    value: surveyeditor_assets
+  - key: BACKEND_CORS_ORIGINS
+    value: '["##COMPLETE_PATH##"]'
+  routing:
+    traefik:
+      inner_port: 80
+      prefix: '##SURVEYEDITOR_BASEPATH##'
+      strip: true
+dependencies:
+- mongodb
+image: interlinkproject/interlinker-surveyeditor:master
+info:
+  action_text: Create a new survey
+  description: Survey designer and publishing INTERLINKER which allows to create on
+    demand new forms to gather information or help in decision making in co-production
+    processess. It is based on open source tool SurveyJs (https://github.com/surveyjs)
+  icon: https://surveyjs.io/Content/Images/logo_1200x630.jpg
+  name: Survey editor
+  snapshots:
+  - https://miro.medium.com/max/521/1*J_auLSp-flPAU44iGA8ejA.png
+  urls:
+    clone: '##COMPLETE_PATH##/surveyeditor/assets/{id}/clone'
+    download: '##COMPLETE_PATH##/surveyeditor/assets/{id}/download'
+    get: '##COMPLETE_PATH##/surveyeditor/assets/{id}'
+    instantiate: '##COMPLETE_PATH##/surveyeditor/assets/instantiate'
+    list: '##COMPLETE_PATH##/surveyeditor/api/v1/assets'
+    view: '##COMPLETE_PATH##/surveyeditor/assets/{id}/view'
+key: surveyeditor
+labels: {}
+network: '##PUBLIC_NETWORK##'
+variables:
+- key: SURVEYEDITOR_BASEPATH
+  value: '/surveyeditor'
+  output: true

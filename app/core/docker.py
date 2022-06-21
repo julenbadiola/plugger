@@ -4,7 +4,7 @@ from docker.models.containers import Container
 from docker.models.networks import Network
 from docker.errors import NotFound
 import os
-from app.catalogue.services import SERVICES_LIST, DOMAIN, PROTOCOL
+from app.core.services import SERVICES_LIST, DOMAIN, PROTOCOL
 
 COMPOSE = os.getenv('MODE', "compose") == "compose"
 # "compose" or "swarm"
@@ -187,7 +187,7 @@ class ServiceManager:
 
         for name, plugin in SERVICES_LIST.items():
             plugin["name"] = name
-            if not plugin.get("show", True):
+            if not plugin.get("hide", False):
                 continue
 
             for container in containers:

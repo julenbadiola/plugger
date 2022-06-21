@@ -2,6 +2,8 @@
 import os
 from pathlib import Path
 import json
+import yaml
+from .service import ServiceModel
 
 PROTOCOL = "http://"
 DOMAIN = "localhost"
@@ -11,20 +13,29 @@ OUTPUTS = {
     "COMPLETE_PATH": PROTOCOL + DOMAIN,
     "PUBLIC_NETWORK": os.getenv("NETWORK_NAME")
 }
-
 ALL = {}
 
-# Iterates among json files in /services folder
+# Iterates among json and yaml files in /services folder
 for path in Path("/app/services").glob('**/*.json'):
-    f = open( str(path))
+    f = open(str(path))
     data = json.load(f)
+    
+    ServiceModel(**data)
+
+    ALL[data["key"]] = data
+    f.close()
+for path in Path("/app/services").glob('**/*.yaml'):
+    f = open(str(path))
+    data = yaml.safe_load(f)
+    
+    ServiceModel(**data)
+
     ALL[data["key"]] = data
     f.close()
 
 # Get outputs of all services
 for k, v in ALL.items():
-    variables = v.get("outputs", [])
-    for var in variables:
+    for var in v.get("variables", []):
         OUTPUTS[var["key"]] = var["value"]
 
 def substitute(obj):
@@ -46,6 +57,7 @@ def substitute(obj):
         return new_list
     else:
         return obj
+
 
 # Substitutes the references to outputs
 SERVICES_LIST = substitute(ALL)

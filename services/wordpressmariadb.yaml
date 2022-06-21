@@ -1,0 +1,28 @@
+configuration:
+  environment:
+  - key: MYSQL_ROOT_PASSWORD
+    value: secret
+  - key: MYSQL_DATABASE
+    value: '##WORDPRESS_MYSQL_DATABASE##'
+  - key: MYSQL_USER
+    value: '##WORDPRESS_MYSQL_USER##'
+  - key: MYSQL_PASSWORD
+    value: '##WORDPRESS_MYSQL_PASSWORD##'
+dependencies: []
+image: mariadb:10.3.9
+key: wordpressmariadb
+network: '##PUBLIC_NETWORK##'
+variables:
+- key: WORDPRESS_MYSQL_DATABASE
+  value: wordpress
+  output: true
+- key: WORDPRESS_MYSQL_USER
+  value: manager
+  output: true
+- key: WORDPRESS_MYSQL_PASSWORD
+  value: secret
+  output: true
+- key: WORDPRESS_MYSQL_HOST
+  value: wordpressmariadb
+  output: true
+hide: true

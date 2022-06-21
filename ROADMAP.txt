@@ -1,3 +1,11 @@
+EMAIL EN FALLO
+internacionalizacion
+persistencia
+mejorar interfaz
+tags
+
+MULTIPLE NETWORKS
+
 https://docs.docker.com/engine/swarm/stack-deploy/
 
 https://docs.docker.com/engine/reference/commandline/stack_deploy/
