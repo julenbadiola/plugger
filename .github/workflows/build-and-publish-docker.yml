@@ -31,7 +31,7 @@ jobs:
         run: make testing
 
       - name: Run tests with coverage
-        run: make test-coverage
+        run: make coveralls
 
       - name: SonarCloud Scan and coverage
         uses: sonarsource/sonarcloud-github-action@master
