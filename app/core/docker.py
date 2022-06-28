@@ -187,7 +187,7 @@ class ServiceManager:
 
         for name, plugin in SERVICES_LIST.items():
             plugin["name"] = name
-            if not plugin.get("hide", False):
+            if plugin.get("hide", False):
                 continue
 
             for container in containers:

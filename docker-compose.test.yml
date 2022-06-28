@@ -30,21 +30,6 @@ services:
       - traefik.http.routers.tfm-${NETWORK_NAME}-http.rule=Host(`${DOMAIN?Variable not set}`)
       - traefik.http.services.tfm-${NETWORK_NAME}.loadbalancer.server.port=80
 
-  docs:
-    container_name: docs
-    build: ./docs
-    networks:
-      - net
-    volumes:
-      - ./docs/html:/usr/share/nginx/html
-    labels:
-      - traefik.enable=true
-      - traefik.docker.network=${NETWORK_NAME}
-      - traefik.http.services.docs.loadbalancer.server.port=80
-      - traefik.http.routers.docs.rule=Host(`${DOMAIN}`) && PathPrefix(`/docs`)
-      - traefik.http.routers.docs.middlewares=docs-stripprefix
-      - traefik.http.middlewares.docs-stripprefix.stripprefix.prefixes=/docs
-
   plugger:
     image: badiolajulen/plugger:master
     container_name: plugger
@@ -63,27 +48,9 @@ services:
     command: ./entry-dev.sh
     networks:
       - net
-    # labels:
-    #   - traefik.enable=true
-    #   - traefik.docker.network=${NETWORK_NAME}
-    #   - traefik.http.routers.tfm-plugger-http.rule=PathPrefix(`/`)
-    #   - traefik.http.services.tfm-plugger.loadbalancer.server.port=5005
 
   chrome:
-    image: selenium/node-chrome:4.2.2-20220609
-    shm_size: 2gb
-    depends_on:
-      - selenium_hub
-    environment:
-      - SE_EVENT_BUS_HOST=selenium_hub
-      - SE_EVENT_BUS_PUBLISH_PORT=4442
-      - SE_EVENT_BUS_SUBSCRIBE_PORT=4443
-      - VNC_NO_PASSWORD=1
-    networks:
-      - net
-
-  edge:
-    image: selenium/node-edge:4.2.2-20220609
+    image: selenium/node-chrome:4.3.0
     shm_size: 2gb
     depends_on:
       - selenium_hub
@@ -96,7 +63,7 @@ services:
       - net
 
   firefox:
-    image: selenium/node-firefox:4.2.2-20220609
+    image: selenium/node-firefox:4.3.0
     shm_size: 2gb
     depends_on:
       - selenium_hub
@@ -109,7 +76,7 @@ services:
       - net
 
   selenium_hub:
-    image: selenium/hub:4.2.2-20220609
+    image: selenium/hub:4.3.0
     container_name: selenium_hub
     ports:
       - "4442:4442"

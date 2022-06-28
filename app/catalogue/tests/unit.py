@@ -11,7 +11,7 @@ class CatalogueTest(TestCase):
         self.initialContainers = [
             container.name for container in manager.list()]
 
-    def start_container(self):
+    def start_service(self):
         self.assertFalse(self.container_to_start in [
                          container.name for container in manager.list()])
         manager.start(self.container_to_start,
@@ -19,7 +19,7 @@ class CatalogueTest(TestCase):
         self.assertTrue(self.container_to_start in [
                         container.name for container in manager.list()])
 
-    def stop_container(self):
+    def stop_service(self):
         self.assertTrue(self.container_to_start in [
                         container.name for container in manager.list()])
         manager.remove(self.container_to_start)
@@ -30,5 +30,5 @@ class CatalogueTest(TestCase):
         self.assertListEqual(self.initialContainers, current_container_names)
 
     def test_manager(self):
-        self.start_container()
-        self.stop_container()
+        self.start_service()
+        self.stop_service()

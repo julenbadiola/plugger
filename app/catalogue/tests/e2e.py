@@ -22,9 +22,11 @@ class SeleniumTest(TestCase):
       @tag('e2e')
       def test_visit_site_with_chrome(self):
             self.chrome.get('http://plugger:5005')
+            print("EOOOOO")
             self.assertIn(self.firefox.title, 'Plugins | Plugger')
             
       @tag('e2e')
       def test_visit_site_with_firefox(self):
             self.firefox.get('http://plugger:5005')
+            print("EOOOO 2222")
             self.assertIn(self.firefox.title, 'Plugins | Plugger')

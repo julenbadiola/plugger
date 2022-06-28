@@ -18,6 +18,18 @@ class LogInTest(TestCase):
         }
         User.objects.create_superuser(**self.credentials)
 
+    # def test_correct(self):
+    #     user = authenticate(username='test', password='12test12')
+    #     self.assertTrue((user is not None) and user.is_authenticated)
+# 
+    # def test_wrong_username(self):
+    #     user = authenticate(username='wrong', password='12test12')
+    #     self.assertFalse(user is not None and user.is_authenticated)
+# 
+    # def test_wrong_pssword(self):
+    #     user = authenticate(username='test', password='wrong')
+    #     self.assertFalse(user is not None and user.is_authenticated)
+
     def test_login(self):
         # send login data
         response = self.client.post('/login', self.credentials, follow=True)
