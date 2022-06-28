@@ -2,7 +2,7 @@
 
 from django.urls import path
 
-from app.catalogue import views
+from catalogue import views
 
 
 urlpatterns = [
