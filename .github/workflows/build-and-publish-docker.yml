@@ -28,11 +28,12 @@ jobs:
         uses: actions/checkout@v2
 
       - name: Run containers needed for testing
-        run: make testing
+        run: |
+          export COVERALLS_REPO_TOKEN=${{ secrets.COVERALLS_REPO_TOKEN }}
+          make testing
 
       - name: Run tests with coverage
         run: |
-          export COVERALLS_REPO_TOKEN=${{ secrets.COVERALLS_REPO_TOKEN }}
           make coveralls
 
       - name: SonarCloud Scan and coverage
