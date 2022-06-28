@@ -11,7 +11,7 @@ Plugger documentation
    :caption: Contents:
 
    getting-started.md
-   plugins.md
+   services.md
    
 Indices and tables
 ==================
