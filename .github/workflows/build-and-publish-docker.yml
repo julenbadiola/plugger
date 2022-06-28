@@ -10,6 +10,7 @@ on:
     paths:
       - ./app/**
       - ./services/**
+      - ./test_services/**
       - Dockerfile
       - "*.yml"
       - Makefile
@@ -26,7 +27,10 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v2
 
-      - name: Run tests
+      - name: Run containers needed for testing
+        run: make testing
+
+      - name: Run tests with coverage
         run: make test-coverage
 
       - name: SonarCloud Scan and coverage
