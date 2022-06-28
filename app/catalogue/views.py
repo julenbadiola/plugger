@@ -1,11 +1,10 @@
 # -*- encoding: utf-8 -*-
 
-from core.docker import manager
+from catalogue.docker import manager
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render
-from core.services import SERVICES_LIST
+from catalogue.services import SERVICES_LIST
 from django.http import JsonResponse
-
 
 def status(request):
     started, stopped = manager.status()

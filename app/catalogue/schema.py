@@ -46,7 +46,7 @@ class ServiceModel(BaseModel, extra=Extra.forbid):
     labels: Optional[dict]
 
     @root_validator(pre=True)
-    def check_card_number_omitted(cls, values):
+    def check_info_when_hide_false(cls, values):
         if not values.get("hide", False) and not values.get("info"):
-            raise ValueError("Info mandatory when hide is true", values)
+            raise ValueError("Info mandatory when hide is false", values)
         return values

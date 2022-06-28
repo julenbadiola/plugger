@@ -54,5 +54,5 @@ test-e2e: ## Starts e2e tests after starting selenium containers
 	docker exec plugger python3 manage.py test --tag=e2e
 
 .PHONY: test-coverage
-test-coverage: testing ## Starts tests with coverage measuring
+test-coverage: ## Starts tests with coverage measuring
 	docker exec plugger ./test.sh

@@ -11,7 +11,8 @@ from core.settings import LOGIN_REDIRECT_URL
 def user_login(request):
     form = LoginForm(request.POST or None)
     msg = None
-
+    status = None
+    
     if request.method == "POST":
 
         if form.is_valid():
@@ -20,10 +21,13 @@ def user_login(request):
             user = authenticate(username=username, password=password)
             if user is not None:
                 login(request, user)
+                status = 200
                 return redirect(LOGIN_REDIRECT_URL)
             else:
+                status = 401
                 msg = "Invalid credentials"
         else:
+            status = 400
             msg = "Error validating the form"
 
-    return render(request, "login.html", {"form": form, "msg": msg})
+    return render(request, "login.html", {"form": form, "msg": msg}, status=status)

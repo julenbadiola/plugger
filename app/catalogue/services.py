@@ -3,7 +3,7 @@ import os
 from pathlib import Path
 import json
 import yaml
-from .service import ServiceModel
+from .schema import ServiceModel
 
 PROTOCOL = "http://"
 DOMAIN = "localhost"
@@ -15,22 +15,25 @@ OUTPUTS = {
 }
 ALL = {}
 
+def parse_and_add_data(data):
+    try:
+        ServiceModel(**data)
+        ALL[data["key"]] = data
+    except Exception as e:
+        print(f"An error happened when trying to parse {path}")
+        print(str(e))
+
 # Iterates among json and yaml files in /services folder
 for path in Path("/app/services").glob('**/*.json'):
     f = open(str(path))
     data = json.load(f)
-    
-    ServiceModel(**data)
-
-    ALL[data["key"]] = data
+    parse_and_add_data(data)
     f.close()
+
 for path in Path("/app/services").glob('**/*.yaml'):
     f = open(str(path))
     data = yaml.safe_load(f)
-    
-    ServiceModel(**data)
-
-    ALL[data["key"]] = data
+    parse_and_add_data(data)
     f.close()
 
 # Get outputs of all services

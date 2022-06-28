@@ -4,7 +4,7 @@ from docker.models.containers import Container
 from docker.models.networks import Network
 from docker.errors import NotFound
 import os
-from core.services import SERVICES_LIST, DOMAIN, PROTOCOL
+from catalogue.services import SERVICES_LIST, DOMAIN, PROTOCOL
 
 COMPOSE = os.getenv('MODE', "compose") == "compose"
 # "compose" or "swarm"
