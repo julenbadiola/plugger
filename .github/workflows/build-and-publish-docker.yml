@@ -56,12 +56,3 @@ jobs:
             badiolajulen/plugger:${{ github.ref_name }}.${{ steps.date.outputs.date }}
           cache-from: type=registry,ref=badiolajulen/plugger:buildcache
           cache-to: type=registry,ref=badiolajulen/plugger:buildcache,mode=max
-  
-  security:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@master
-      - name: Run Snyk to check for vulnerabilities
-        uses: snyk/actions/node@master
-        env:
-          SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
