@@ -19,7 +19,6 @@ pydantic = "^1.9.1"
 pytest = "^5.2"
 coverage = "^6.4.1"
 selenium = "^4.2.0"
-coveralls = "^3.3.1"
 
 [build-system]
 requires = ["poetry-core>=1.0.0"]

@@ -5,7 +5,6 @@ __pycache__/
 # tests and coverage
 *.pytest_cache
 .coverage
-.coveralls.yml
 
 # database & logs
 *.db

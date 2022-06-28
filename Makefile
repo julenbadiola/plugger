@@ -56,7 +56,3 @@ test-e2e: ## Starts e2e tests after starting selenium containers
 .PHONY: test-coverage
 test-coverage: ## Starts tests with coverage measuring
 	docker exec plugger ./test.sh
-
-.PHONY: coveralls
-coveralls: ## Executes coveralls 
-	docker exec plugger coveralls

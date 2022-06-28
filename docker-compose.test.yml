@@ -41,7 +41,6 @@ services:
       - 5005:5005
     environment:
       - MODE=compose
-      - COVERALLS_REPO_TOKEN
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock:ro
       - ./app:/app
