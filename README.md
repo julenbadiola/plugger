@@ -11,8 +11,7 @@
 [![Reliability Rating](https://sonarcloud.io/api/project_badges/measure?project=julenbadiola_plugger&metric=reliability_rating)](https://sonarcloud.io/summary/new_code?id=julenbadiola_plugger)
 [![Code Smells](https://sonarcloud.io/api/project_badges/measure?project=julenbadiola_plugger&metric=code_smells)](https://sonarcloud.io/summary/new_code?id=julenbadiola_plugger)
 [![Lines of Code](https://sonarcloud.io/api/project_badges/measure?project=julenbadiola_plugger&metric=ncloc)](https://sonarcloud.io/summary/new_code?id=julenbadiola_plugger)
-[![Coverage](https://sonarcloud.io/api/project_badges/measure?project=julenbadiola_plugger&metric=coverage)](https://sonarcloud.io/summary/new_code?id=julenbadiola_plugger)
-
+[![Coverage Status](https://coveralls.io/repos/github/julenbadiola/plugger/badge.svg?branch=master)](https://coveralls.io/github/julenbadiola/plugger?branch=master)
 
 [![LinkedIn][linkedin-shield]][linkedin-url]
 
