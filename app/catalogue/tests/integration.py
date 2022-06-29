@@ -1,42 +1,44 @@
 # -*- encoding: utf-8 -*-
 from django.test import TestCase
 from django.test import tag
-from decouple import config
-from django.contrib.auth.models import User
-
-ADMIN_USER = config('ADMIN_USER')
-ADMIN_EMAIL = config('ADMIN_EMAIL')
-ADMIN_PASSWORD = config('ADMIN_PASSWORD')
+from core.tests import TEST_CREDENTIALS
+from catalogue.docker import manager
 
 class CatalogueIntegrationTest(TestCase):
     def setUp(self):
-        self.credentials = {
-            'username': ADMIN_USER,
-            'password': ADMIN_PASSWORD,
-            'email': ADMIN_EMAIL
-        }
-        User.objects.create_superuser(**self.credentials)
-        self.client.login(username=self.credentials["username"], password=self.credentials["password"])
+        self.client.login(username=TEST_CREDENTIALS["username"], password=TEST_CREDENTIALS["password"])
+        self.service_to_test = "drupal"
 
     @tag('integration')
     def test_catalogue_endpoint(self):
-        # get home page without being authenticated
+        # get catalogue in json format endpoint
         response = self.client.get('/json', follow=False)
         self.assertTrue(response.status_code == 200)
     
     @tag('integration')
     def test_status_endpoint(self):
-        # get home page without being authenticated
+        # get status endpoint
         response = self.client.get('/status', follow=False)
         self.assertTrue(response.status_code == 200)
     
     @tag('integration')
     def test_start_and_stop_service(self):
-        # get home page without being authenticated
+        # start and stop services
+        self.assertFalse(self.service_to_test in [
+                         container.name for container in manager.list()])
         response = self.client.post('/', data={
-            "name": "drupal"
+            "name": self.service_to_test
         })
-        print(response.json())
         self.assertTrue(response.status_code == 200)
+        self.assertTrue(self.service_to_test in [
+                        container.name for container in manager.list()])
+
+        response = self.client.post('/', data={
+            "stop": self.service_to_test
+        })
+        self.assertTrue(response.status_code == 200)
+        self.assertFalse(self.service_to_test in [
+                        container.name for container in manager.list()])
+
         
 

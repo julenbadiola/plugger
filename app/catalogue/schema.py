@@ -48,5 +48,5 @@ class ServiceModel(BaseModel, extra=Extra.forbid):
     @root_validator(pre=True)
     def check_info_when_hide_false(cls, values):
         if not values.get("hide", False) and not values.get("info"):
-            raise ValueError("Info mandatory when hide is false", values)
+            raise ValueError("Info mandatory when 'hide' attribute is set to false", values)
         return values

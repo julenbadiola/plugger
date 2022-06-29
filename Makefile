@@ -45,8 +45,8 @@ documentation: ## Build documentation
 # TESTING
 ############
 
-.PHONY: test-unit
-test-unit: ## Starts unit tests
+.PHONY: tests
+tests: ## Starts unit tests
 	docker exec plugger python3 manage.py test --exclude-tag=e2e
 
 .PHONY: test-e2e

@@ -137,3 +137,5 @@ MEDIA_ROOT = os.path.join(CORE_DIR, 'static/media')
 #############################################################
 
 CORS_ALLOW_ALL_ORIGINS = True
+
+TEST_RUNNER = 'core.tests.MyTestRunner'

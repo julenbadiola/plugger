@@ -15,12 +15,13 @@ OUTPUTS = {
 }
 ALL = {}
 
-def parse_and_add_data(data):
+def parse_and_add_data(data: dict):
     try:
         ServiceModel(**data)
         ALL[data["key"]] = data
     except Exception as e:
-        print(f"An error happened when trying to parse {path}")
+        key = data.get("key", "unknown")
+        print(f"An error happened when trying to parse {key}")
         print(str(e))
 
 # Iterates among json and yaml files in /services folder
@@ -41,9 +42,11 @@ for k, v in ALL.items():
     for var in v.get("variables", []):
         OUTPUTS[var["key"]] = var["value"]
 
+# Substitute the outputs keys with the outputs values
 def substitute(obj):
     obj_type = type(obj)
     if obj_type == str:
+        # Check if there is a reference to an output and replace it with its value
         new_str = obj
         for varkey, varvalue in OUTPUTS.items():
             new_str = new_str.replace(f"##{varkey}##", varvalue)

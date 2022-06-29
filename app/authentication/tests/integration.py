@@ -1,40 +1,28 @@
 # -*- encoding: utf-8 -*-
 
-from django.contrib.auth.models import User
-from django.test import TestCase
-from decouple import config
-from django.test import tag
+from django.test import TestCase, tag
+from core.tests import TEST_CREDENTIALS
 
-# https://medium.com/@adamking0126/a-simple-recipe-for-django-development-in-docker-bonus-testing-with-selenium-6a038ec19ba5
-
-ADMIN_USER = config('ADMIN_USER')
-ADMIN_EMAIL = config('ADMIN_EMAIL')
-ADMIN_PASSWORD = config('ADMIN_PASSWORD')
-
-class LogInTest(TestCase):
-    def setUp(self):
-        self.credentials = {
-            'username': ADMIN_USER,
-            'password': ADMIN_PASSWORD,
-            'email': ADMIN_EMAIL
-        }
-        User.objects.create_superuser(**self.credentials)
-
+class AuthenticationIntegrationTest(TestCase):
+    
     @tag('integration')
     def test_redirect_on_authenticated(self):
         # get login page without being authenticated
         response = self.client.get('/login', follow=False)
         self.assertTrue(response.status_code == 200)
+        self.assertTemplateUsed(response, template_name='login.html')
 
-        # should be redirected when authenticated
-        self.client.login(username=self.credentials["username"], password=self.credentials["password"])
-        response2 = self.client.get('/login', follow=False)
+        # should be redirected to catalogue when authenticated
+        self.client.login(
+            username=TEST_CREDENTIALS["username"], password=TEST_CREDENTIALS["password"])
+        response2 = self.client.get('/login')
         self.assertTrue(response2.status_code == 302)
-  
+
     @tag('integration')
     def test_login_and_logout(self):
         # send login data
-        response = self.client.post('/login', self.credentials, follow=True)
+        response = self.client.post('/login', TEST_CREDENTIALS, follow=True)
+        self.assertTemplateUsed(response, template_name='catalogue.html')
         # should be logged in now
         user = response.context['user']
         self.assertTrue(user.is_authenticated and user.is_active)
@@ -42,8 +30,9 @@ class LogInTest(TestCase):
 
         # send logout request
         response = self.client.post('/logout', follow=True)
-        # should be unauthenticated now
+        # should be unauthenticated now and login page been rendered
         user = response.context['user']
+        self.assertTemplateUsed(response, template_name='login.html')
         self.assertFalse(user.is_authenticated)
         self.assertEqual(response.status_code, 200)
 
@@ -51,21 +40,23 @@ class LogInTest(TestCase):
     def test_invalid_credentials(self):
         # send login data
         response = self.client.post('/login', {
-            'username': "unknown",
-            'password': ADMIN_PASSWORD,
+            'username': "invalid",
+            'password': TEST_CREDENTIALS["password"],
         }, follow=True)
-        # should be not logged in now
+        # should be not logged in yet and login page rendered
         user = response.context['user']
         self.assertFalse(user.is_authenticated)
         self.assertEqual(response.status_code, 401)
-    
+        self.assertTemplateUsed(response, template_name='login.html')
+
     @tag('integration')
     def test_invalid_login(self):
         # send login data
         response = self.client.post('/login', {
-            'username': "unknown",
+            'username': "invalid",
         }, follow=True)
-        # should be not logged in now
+        # should be not logged in yet and login page rendered
         user = response.context['user']
         self.assertFalse(user.is_authenticated)
         self.assertEqual(response.status_code, 400)
+        self.assertTemplateUsed(response, template_name='login.html')

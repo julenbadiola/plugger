@@ -3,3 +3,4 @@
 # from .e2e import SeleniumTest
 from .unit import *
 from .integration import *
+from .e2e import *
