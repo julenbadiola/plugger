@@ -6,3 +6,4 @@ coverage combine
 coverage report
 coverage html
 coverage xml
+coverage lcov

@@ -36,6 +36,7 @@ jobs:
         uses: coverallsapp/github-action@v1.1.2
         with:
           github-token: ${{ github.token }}
+          base-path: app
 
       - name: SonarCloud Scan and coverage
         uses: sonarsource/sonarcloud-github-action@master
