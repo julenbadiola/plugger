@@ -41,6 +41,9 @@ services:
       - 5005:5005
     environment:
       - MODE=compose
+      - SELENIUM_HUB_HOST=selenium_hub:4444
+    depends_on:
+      - selenium_hub
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock:ro
       - ./app:/app

@@ -1,6 +1,6 @@
 {% extends "base.html" %}
 
-{% block title %} Plugins {% endblock %}
+{% block title %} Catalogue {% endblock %}
 
 <!-- Specific Page CSS goes HERE  -->
 {% block stylesheets %}{% endblock stylesheets %}
@@ -91,7 +91,7 @@
         <div class="modal-content">
           <div class="modal-header">
             <h5 class="modal-title" id="{{plugin.name}}Label">Launch {{plugin.info.name}}</h5>
-            <button type="button" class="btn btn-light" data-dismiss="modal" aria-label="Close">
+            <button type="button" id="{{plugin.name}}OpenButton" class="btn btn-light" data-dismiss="modal" aria-label="Close">
               <span aria-hidden="true">&times;</span>
             </button>
           </div>
