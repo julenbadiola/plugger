@@ -17,7 +17,7 @@ configuration:
   - key: COLLECTION_NAME
     value: googledrive_assets
   - key: BACKEND_CORS_ORIGINS
-    value: '["##COMPLETE_PATH##"]'
+    value: '["##FULL_PATH##"]'
   - editable: true
     key: GOOGLE_PROJECT_ID
   - editable: true
@@ -29,7 +29,7 @@ configuration:
   - editable: true
     key: GOOGLE_CLIENT_ID
   routing:
-    traefik:
+    proxy:
       inner_port: 80
       prefix: '##GOOGLEDRIVE_BASEPATH##'
       strip: true
@@ -51,14 +51,14 @@ info:
   name: Google drive resource editor
   snapshots:
   - https://www.filo.news/export/sites/claro/img/2022/02/21/aisummary.gif_344325628.gif
-  url: '##COMPLETE_PATH##/googledrive/assets'
+  url: '##FULL_PATH##/googledrive/assets'
   urls:
-    clone: '##COMPLETE_PATH##/googledrive/assets/{id}/clone'
-    download: '##COMPLETE_PATH##/googledrive/assets/{id}/download'
-    get: '##COMPLETE_PATH##/googledrive/assets/{id}'
-    instantiate: '##COMPLETE_PATH##/googledrive/assets/instantiate'
-    list: '##COMPLETE_PATH##/googledrive/api/v1/assets'
-    view: '##COMPLETE_PATH##/googledrive/assets/{id}/view'
+    clone: '##FULL_PATH##/googledrive/assets/{id}/clone'
+    download: '##FULL_PATH##/googledrive/assets/{id}/download'
+    get: '##FULL_PATH##/googledrive/assets/{id}'
+    instantiate: '##FULL_PATH##/googledrive/assets/instantiate'
+    list: '##FULL_PATH##/googledrive/api/v1/assets'
+    view: '##FULL_PATH##/googledrive/assets/{id}/view'
 key: googledrive
 network: '##PUBLIC_NETWORK##'
 variables:

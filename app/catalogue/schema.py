@@ -7,7 +7,7 @@ class TraefikConfig(BaseModel):
     strip: Optional[bool]
 
 class RoutingConfigurationSection(BaseModel):
-    traefik: Optional[TraefikConfig]
+    proxy: Optional[TraefikConfig]
     ports: Optional[Dict[str, str]]
 
 class ConfigurationSection(BaseModel):

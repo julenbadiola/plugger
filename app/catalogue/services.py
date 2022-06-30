@@ -4,14 +4,13 @@ from pathlib import Path
 import json
 import yaml
 from .schema import ServiceModel
+from core.conf import DOMAIN, PROTOCOL, FULL_PATH, NETWORK_NAME
 
-PROTOCOL = "http://"
-DOMAIN = "localhost"
 OUTPUTS = {
     "DOMAIN": DOMAIN,
     "PROTOCOL": PROTOCOL,
-    "COMPLETE_PATH": PROTOCOL + DOMAIN,
-    "PUBLIC_NETWORK": os.getenv("NETWORK_NAME")
+    "FULL_PATH": FULL_PATH,
+    "PUBLIC_NETWORK": NETWORK_NAME
 }
 ALL = {}
 

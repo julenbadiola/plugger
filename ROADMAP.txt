@@ -3,6 +3,9 @@ internacionalizacion
 persistencia
 mejorar interfaz
 tags
+cache para el endpoint publico
+establecer cuáles en marcha siempre
+clean images on exit
 
 MULTIPLE NETWORKS
 

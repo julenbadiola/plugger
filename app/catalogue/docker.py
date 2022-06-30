@@ -3,10 +3,9 @@ import docker
 from docker.models.containers import Container
 from docker.models.networks import Network
 from docker.errors import NotFound
-import os
-from catalogue.services import SERVICES_LIST, DOMAIN, PROTOCOL
+from catalogue.services import SERVICES_LIST
+from core.conf import DOMAIN, PROTOCOL, COMPOSE
 
-COMPOSE = os.getenv('MODE', "compose") == "compose"
 # "compose" or "swarm"
 
 docker_client = docker.from_env()
@@ -77,6 +76,35 @@ class ServiceManager:
                 self.compose_project = service.labels.get("com.docker.compose.project")
         # print(self.resume)
 
+    # def start_proxy(self):
+    #     image = "traefik:v2.2"
+    #     name = "proxy"
+    #     if COMPOSE:
+    #         try:
+    #             existent = self.get(name)
+    #             print("- Proxy already up")
+    #         except NotFound:
+    #             print(f"- Pulling {image}")
+    #             docker_client.images.pull(image)
+    #             labels = {
+    #                 "traefik.docker.network": NETWORK_NAME,
+    #                 f"traefik.http.routers.plugger-{NETWORK_NAME}-http.rule": f"Host(`{DOMAIN}`)",
+    #                 f"traefik.http.services.plugger-{NETWORK_NAME}.loadbalancer.server.port": 80,
+    #                 "com.docker.compose.project": self.compose_project
+    #             }
+    #             print(f"- Starting {name}")
+    #             docker_client.containers.run(
+    #                 image=image,
+    #                 detach=True,
+    #                 name=name,
+    #                 labels=labels,
+    #                 volumes={'/var/run/docker.sock': {'bind': '/var/run/docker.sock'},},
+    #                 ports= {'80/tcp': 80, '8080/tcp': 8090},
+    #                 network=NETWORK_NAME,
+    #                 command="--providers.docker --providers.docker.exposedbydefault=false --accesslog --log --api --api.insecure=true"
+    #             )
+    #             print(f"- Started {name}")
+
     def list(self):
         if COMPOSE:
             return docker_client.containers.list()
@@ -87,7 +115,9 @@ class ServiceManager:
             return docker_client.containers.get(id)
         return docker_client.services.get(id)
 
-    def start(self, name, plugin: dict, additional_environment_variables: dict):
+    def start(self, name, plugin: dict, additional_environment_variables: dict, dependency = False):
+        if not dependency:
+            print("--------------------")
         # Check if already exists a container with the name in parameters and remove it
         try:
             existent = self.get(name)
@@ -97,20 +127,24 @@ class ServiceManager:
         
         # Pull docker image (can be false to use local images)
         if plugin.get("pull", True):
-            docker_client.images.pull(plugin.get("image"))
+            image = plugin.get("image")
+            print("- Pulling image", image)
+            docker_client.images.pull(image)
 
         # Check the dependencies of the container and start them
         for dependency_name in plugin.get("dependencies", []):
-            dependency = SERVICES_LIST[dependency_name]
-
+            dependency = SERVICES_LIST.get(dependency_name, None)
+            if not dependency:
+                raise NotFound(f"Dependency {dependency_name} not found")
             try:
                 self.get(dependency_name)
-                print(f"Dependency {dependency_name} already started")
+                print(f"- Dependency {dependency_name} already up")
             except NotFound:
-                self.start(name=dependency_name, plugin=dependency, additional_environment_variables={})              
+                self.start(name=dependency_name, plugin=dependency, additional_environment_variables={}, dependency=True)              
 
         # Start
-        print("Starting service", name)
+        
+        print("- Starting service", name)
 
         # Create the network if it does not exist
         net_name = plugin.get("network")
@@ -122,16 +156,17 @@ class ServiceManager:
         # Add the labels for the traefik routing if needed
         labels = plugin.get("labels", {})
         
-        if traefik_conf := plugin.get("configuration", {}).get("routing", {}).get("traefik", {}):
+        if traefik_conf := plugin.get("configuration", {}).get("routing", {}).get("proxy", {}):
+            # self.start_proxy()
             labels["traefik.enable"] = "true"
             prefix = traefik_conf.get("prefix")
             inner_port = traefik_conf.get("prefix")
-            labels[f"traefik.http.routers.tfm-{name}.rule"] = f"Host(`{DOMAIN}`) && PathPrefix(`{prefix}`)"
-            labels[f"traefik.http.services.tfm-{name}.loadbalancer.server.port"] = str(inner_port)
+            labels[f"traefik.http.routers.plugger-{name}.rule"] = f"Host(`{DOMAIN}`) && PathPrefix(`{prefix}`)"
+            labels[f"traefik.http.services.plugger-{name}.loadbalancer.server.port"] = str(inner_port)
             strip = traefik_conf.get("strip", False)
             if strip:
                 labels[f"traefik.http.middlewares.{name}-stripprefix.stripprefix.prefixes"] = prefix
-                labels[f"traefik.http.routers.tfm-{name}.middlewares"] = f"{name}-stripprefix"
+                labels[f"traefik.http.routers.plugger-{name}.middlewares"] = f"{name}-stripprefix"
         
         # Map the ports structure
         ports = {mapping["from"]:mapping["to"] for mapping in plugin.get("configuration", {}).get("routing", {}).get("ports", [])}

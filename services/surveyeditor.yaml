@@ -17,9 +17,9 @@ configuration:
   - key: COLLECTION_NAME
     value: surveyeditor_assets
   - key: BACKEND_CORS_ORIGINS
-    value: '["##COMPLETE_PATH##"]'
+    value: '["##FULL_PATH##"]'
   routing:
-    traefik:
+    proxy:
       inner_port: 80
       prefix: '##SURVEYEDITOR_BASEPATH##'
       strip: true
@@ -36,12 +36,12 @@ info:
   snapshots:
   - https://miro.medium.com/max/521/1*J_auLSp-flPAU44iGA8ejA.png
   urls:
-    clone: '##COMPLETE_PATH##/surveyeditor/assets/{id}/clone'
-    download: '##COMPLETE_PATH##/surveyeditor/assets/{id}/download'
-    get: '##COMPLETE_PATH##/surveyeditor/assets/{id}'
-    instantiate: '##COMPLETE_PATH##/surveyeditor/assets/instantiate'
-    list: '##COMPLETE_PATH##/surveyeditor/api/v1/assets'
-    view: '##COMPLETE_PATH##/surveyeditor/assets/{id}/view'
+    clone: '##FULL_PATH##/surveyeditor/assets/{id}/clone'
+    download: '##FULL_PATH##/surveyeditor/assets/{id}/download'
+    get: '##FULL_PATH##/surveyeditor/assets/{id}'
+    instantiate: '##FULL_PATH##/surveyeditor/assets/instantiate'
+    list: '##FULL_PATH##/surveyeditor/api/v1/assets'
+    view: '##FULL_PATH##/surveyeditor/assets/{id}/view'
 key: surveyeditor
 labels: {}
 network: '##PUBLIC_NETWORK##'

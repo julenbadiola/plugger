@@ -7,7 +7,7 @@ configuration:
   - key: SERVER_NAME
     value: '##DOMAIN##'
   routing:
-    traefik:
+    proxy:
       inner_port: 3000
       prefix: /
 image: interlink-core:latest

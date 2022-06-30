@@ -16,6 +16,11 @@ configuration:
     ports:
     - from: 8080/tcp
       to: '8080'
+    routing:
+    proxy:
+      inner_port: 8080
+      prefix: '/wordpress'
+      strip: true
 dependencies:
 - wordpressmariadb
 image: bitnami/wordpress:latest
