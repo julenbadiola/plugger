@@ -30,12 +30,14 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'authentication',
     'catalogue',
+    'corsheaders',
 ]
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'whitenoise.middleware.WhiteNoiseMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
+    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
@@ -139,3 +141,24 @@ MEDIA_ROOT = os.path.join(CORE_DIR, 'static/media')
 CORS_ALLOW_ALL_ORIGINS = True
 
 TEST_RUNNER = 'core.tests.MyTestRunner'
+
+import sentry_sdk
+from sentry_sdk.integrations.django import DjangoIntegration
+
+SENTRY_DSN = config('SENTRY_DSN', default=None, cast=str)
+if SENTRY_DSN:
+    SENTRY_SAMPLE_RATE = config('SENTRY_SAMPLE_RATE', default=1.0, cast=float)
+
+    sentry_sdk.init(
+        dsn=SENTRY_DSN,
+        integrations=[DjangoIntegration()],
+
+        # Set traces_sample_rate to 1.0 to capture 100%
+        # of transactions for performance monitoring.
+        # We recommend adjusting this value in production,
+        traces_sample_rate=SENTRY_SAMPLE_RATE,
+
+        # If you wish to associate users to errors (assuming you are using
+        # django.contrib.auth) you may enable sending PII data.
+        send_default_pii=True,
+    )

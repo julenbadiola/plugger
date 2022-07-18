@@ -125,6 +125,17 @@ argon2 = ["argon2-cffi (>=19.1.0)"]
 bcrypt = ["bcrypt"]
 
 [[package]]
+name = "django-cors-headers"
+version = "3.13.0"
+description = "django-cors-headers is a Django application for handling the server headers required for Cross-Origin Resource Sharing (CORS)."
+category = "main"
+optional = false
+python-versions = ">=3.7"
+
+[package.dependencies]
+Django = ">=3.2"
+
+[[package]]
 name = "docker"
 version = "5.0.3"
 description = "A Python library for the Docker Engine API."
@@ -363,6 +374,36 @@ trio-websocket = ">=0.9,<1.0"
 urllib3 = {version = ">=1.26,<2.0", extras = ["secure", "socks"]}
 
 [[package]]
+name = "sentry-sdk"
+version = "1.6.0"
+description = "Python client for Sentry (https://sentry.io)"
+category = "main"
+optional = false
+python-versions = "*"
+
+[package.dependencies]
+certifi = "*"
+urllib3 = ">=1.10.0"
+
+[package.extras]
+aiohttp = ["aiohttp (>=3.5)"]
+beam = ["apache-beam (>=2.12)"]
+bottle = ["bottle (>=0.12.13)"]
+celery = ["celery (>=3)"]
+chalice = ["chalice (>=1.16.0)"]
+django = ["django (>=1.8)"]
+falcon = ["falcon (>=1.4)"]
+flask = ["flask (>=0.11)", "blinker (>=1.1)"]
+httpx = ["httpx (>=0.16.0)"]
+pure_eval = ["pure-eval", "executing", "asttokens"]
+pyspark = ["pyspark (>=2.4.4)"]
+quart = ["quart (>=0.16.1)", "blinker (>=1.1)"]
+rq = ["rq (>=0.6)"]
+sanic = ["sanic (>=0.8)"]
+sqlalchemy = ["sqlalchemy (>=1.2)"]
+tornado = ["tornado (>=5)"]
+
+[[package]]
 name = "sniffio"
 version = "1.2.0"
 description = "Sniff out which async library your code is running under"
@@ -390,7 +431,7 @@ python-versions = ">=3.5"
 name = "tenacity"
 version = "8.0.1"
 description = "Retry code until it succeeds"
-category = "main"
+category = "dev"
 optional = false
 python-versions = ">=3.6"
 
@@ -509,7 +550,7 @@ h11 = ">=0.9.0,<1"
 [metadata]
 lock-version = "1.1"
 python-versions = "^3.10"
-content-hash = "3c60d3208a4b9a54edcb53ce4d765e9fe51d7d46f6c553d16d8057ca8bf8e95a"
+content-hash = "8a0a44c75df8b6f686dba5b1a4df3d2457e4149dd6f17868a83a6ee8155aaa7a"
 
 [metadata.files]
 asgiref = [
@@ -662,6 +703,10 @@ cryptography = [
 django = [
     {file = "Django-3.2.13-py3-none-any.whl", hash = "sha256:b896ca61edc079eb6bbaa15cf6071eb69d6aac08cce5211583cfb41515644fdf"},
     {file = "Django-3.2.13.tar.gz", hash = "sha256:6d93497a0a9bf6ba0e0b1a29cccdc40efbfc76297255b1309b3a884a688ec4b6"},
+]
+django-cors-headers = [
+    {file = "django-cors-headers-3.13.0.tar.gz", hash = "sha256:f9dc6b4e3f611c3199700b3e5f3398c28757dcd559c2f82932687f3d0443cfdf"},
+    {file = "django_cors_headers-3.13.0-py3-none-any.whl", hash = "sha256:37e42883b5f1f2295df6b4bba96eb2417a14a03270cb24b2a07f021cd4487cf4"},
 ]
 docker = [
     {file = "docker-5.0.3-py2.py3-none-any.whl", hash = "sha256:7a79bb439e3df59d0a72621775d600bc8bc8b422d285824cb37103eab91d1ce0"},
@@ -821,6 +866,7 @@ requests = [
 selenium = [
     {file = "selenium-4.2.0-py3-none-any.whl", hash = "sha256:ba5b2633f43cf6fe9d308fa4a6996e00a101ab9cb1aad6fd91ae1f3dbe57f56f"},
 ]
+sentry-sdk = []
 sniffio = [
     {file = "sniffio-1.2.0-py3-none-any.whl", hash = "sha256:471b71698eac1c2112a40ce2752bb2f4a4814c22a54a3eed3676bc0f5ca9f663"},
     {file = "sniffio-1.2.0.tar.gz", hash = "sha256:c4666eecec1d3f50960c6bdf61ab7bc350648da6c126e3cf6898d8cd4ddcd3de"},

@@ -160,7 +160,7 @@ class ServiceManager:
             # self.start_proxy()
             labels["traefik.enable"] = "true"
             prefix = traefik_conf.get("prefix")
-            inner_port = traefik_conf.get("prefix")
+            inner_port = traefik_conf.get("inner_port")
             labels[f"traefik.http.routers.plugger-{name}.rule"] = f"Host(`{DOMAIN}`) && PathPrefix(`{prefix}`)"
             labels[f"traefik.http.services.plugger-{name}.loadbalancer.server.port"] = str(inner_port)
             strip = traefik_conf.get("strip", False)

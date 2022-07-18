@@ -6,6 +6,7 @@ tags
 cache para el endpoint publico
 establecer cuáles en marcha siempre
 clean images on exit
+ayuda en los fields que se piden en el modal
 
 MULTIPLE NETWORKS
 

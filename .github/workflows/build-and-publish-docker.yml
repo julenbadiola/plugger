@@ -32,6 +32,12 @@ jobs:
           make testing
           make test-coverage
 
+      - name: SonarCloud Scan
+        uses: sonarsource/sonarcloud-github-action@master
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+
       - name: Publish coverage to coveralls.io
         uses: coverallsapp/github-action@v1.1.2
         with:

@@ -35,6 +35,8 @@
   </p>
 </div>
 
+> :warning: **Not ready for use. So far it has been used for testing, from next month I will have time to finish it and optimise it.**
+
 ## About The Project
 
 Plugger is a tool that allows you to quickly, easily, and customisably launch web services from a simple, authenticated user interface. It uses Docker's python SDK to interact with the underlying docker compose or docker swarm stack.
