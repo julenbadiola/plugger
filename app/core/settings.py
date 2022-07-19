@@ -145,7 +145,7 @@ TEST_RUNNER = 'core.tests.MyTestRunner'
 import sentry_sdk
 from sentry_sdk.integrations.django import DjangoIntegration
 
-SENTRY_DSN = config('SENTRY_DSN', default=None, cast=str)
+SENTRY_DSN = config('SENTRY_DSN', default=None)
 if SENTRY_DSN:
     SENTRY_SAMPLE_RATE = config('SENTRY_SAMPLE_RATE', default=1.0, cast=float)
 
