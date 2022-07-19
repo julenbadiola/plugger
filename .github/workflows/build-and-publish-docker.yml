@@ -68,7 +68,7 @@ jobs:
           file: Dockerfile
           push: true
           tags: |
-            ${{env.DOCKER_IMAGE_NAME}}
-            ${{env.DOCKER_IMAGE_NAME}}.$(date +'%Y%m%d')
+            "${{env.DOCKER_IMAGE_NAME}}"
+            "${{env.DOCKER_IMAGE_NAME}}.$(date +'%Y%m%d')"
           cache-from: type=registry,ref=badiolajulen/plugger:buildcache
           cache-to: type=registry,ref=badiolajulen/plugger:buildcache,mode=max
