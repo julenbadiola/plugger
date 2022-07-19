@@ -20,6 +20,10 @@ jobs:
   docker:
     runs-on: ubuntu-latest
     steps:
+      - name: Get current date
+        id: date
+        run: echo "::set-output name=date::$(date +'%Y%m%d')"
+
       - name: Checkout
         uses: actions/checkout@v2
 
@@ -69,6 +73,6 @@ jobs:
           push: true
           tags: |
             "${{env.DOCKER_IMAGE_NAME}}"
-            "${{env.DOCKER_IMAGE_NAME}}.$(date +'%Y%m%d')"
+            "${{env.DOCKER_IMAGE_NAME}}.${{ steps.date.outputs.date }}"
           cache-from: type=registry,ref=badiolajulen/plugger:buildcache
           cache-to: type=registry,ref=badiolajulen/plugger:buildcache,mode=max
