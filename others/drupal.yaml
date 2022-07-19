@@ -1,0 +1,30 @@
+configuration:
+  environment:
+  - key: ALLOW_EMPTY_PASSWORD
+    value: 'yes'
+  - key: DRUPAL_DATABASE_USER
+    value: '##DRUPAL_MYSQL_USER##'
+  - key: DRUPAL_DATABASE_PASSWORD
+    value: '##DRUPAL_MYSQL_PASSWORD##'
+  - key: DRUPAL_DATABASE_HOST
+    value: '##DRUPAL_MYSQL_HOST##'
+  - key: DRUPAL_DATABASE_NAME
+    value: '##DRUPAL_MYSQL_DATABASE##'
+  - key: APACHE_HTTP_PORT_NUMBER
+    value: '8080'
+  routing:
+    ports:
+    - from: 8080/tcp
+      to: '8081'
+dependencies:
+- drupalmariadb
+image: bitnami/drupal:latest
+info:
+  description: Drupal
+  icon: https://seeklogo.com/images/D/drupal-logo-AD2AF3310E-seeklogo.com.png
+  name: Drupal
+  snapshots:
+  - https://resources.sendinblue.com/wp-content/uploads/2015/04/plugin_drupal_EN_5.png
+key: drupal
+network: '##PUBLIC_NETWORK##'
+variables: []

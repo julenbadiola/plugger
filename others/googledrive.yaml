@@ -1,0 +1,68 @@
+configuration:
+  environment:
+  - key: MONGODB_URL
+    value: mongodb://##MONGODB_USERNAME##:##MONGODB_PASSWORD##@##MONGODB_HOST##:##MONGODB_PORT##/##MONGODB_DATABASE##?retryWrites=true&w=majority
+  - key: PORT
+    value: '80'
+  - key: PROTOCOL
+    value: '##PROTOCOL##'
+  - key: SERVER_NAME
+    value: '##DOMAIN##'
+  - key: MONGODB_DATABASE
+    value: data
+  - key: MODE
+    value: development
+  - key: BASE_PATH
+    value: '##GOOGLEDRIVE_BASEPATH##'
+  - key: COLLECTION_NAME
+    value: googledrive_assets
+  - key: BACKEND_CORS_ORIGINS
+    value: '["##FULL_PATH##"]'
+  - editable: true
+    key: GOOGLE_PROJECT_ID
+  - editable: true
+    key: GOOGLE_PRIVATE_KEY_ID
+  - editable: true
+    key: GOOGLE_PRIVATE_KEY
+  - editable: true
+    key: GOOGLE_CLIENT_EMAIL
+  - editable: true
+    key: GOOGLE_CLIENT_ID
+  routing:
+    proxy:
+      inner_port: 80
+      prefix: '##GOOGLEDRIVE_BASEPATH##'
+      strip: true
+dependencies:
+- mongodb
+image: interlinkproject/interlinker-googledrive:master
+info:
+  action_text: Create a new Google Drive resource
+  description: Google Drive is a file storage and synchronization service developed
+    by Google. Launched on April 24, 2012, Google Drive allows users to store files
+    in the cloud, synchronize files across devices, and share files. Google Drive
+    encompasses Google Docs, Google Sheets, and Google Slides, which are a part of
+    the Google Docs Editors office suite that permits collaborative editing of documents,
+    spreadsheets, presentations, drawings, forms, and more. Files created and edited
+    through the Google Docs suite are saved in Google Drive. This software INTERLIKER
+    allows users of the collaborative environment to create new documents, spreadsheets
+    and presentations which can be co-edited and shared by co-production team participants
+  icon: https://upload.wikimedia.org/wikipedia/commons/d/da/Google_Drive_logo.png
+  name: Google drive resource editor
+  snapshots:
+  - https://www.filo.news/export/sites/claro/img/2022/02/21/aisummary.gif_344325628.gif
+  url: '##FULL_PATH##/googledrive/assets'
+  urls:
+    clone: '##FULL_PATH##/googledrive/assets/{id}/clone'
+    download: '##FULL_PATH##/googledrive/assets/{id}/download'
+    get: '##FULL_PATH##/googledrive/assets/{id}'
+    instantiate: '##FULL_PATH##/googledrive/assets/instantiate'
+    list: '##FULL_PATH##/googledrive/api/v1/assets'
+    view: '##FULL_PATH##/googledrive/assets/{id}/view'
+key: googledrive
+network: '##PUBLIC_NETWORK##'
+variables:
+- key: GOOGLEDRIVE_BASEPATH
+  value: '/googledrive'
+  output: true
+

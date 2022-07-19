@@ -1,0 +1,28 @@
+configuration:
+  environment:
+  - key: MYSQL_ROOT_PASSWORD
+    value: secret
+  - key: MYSQL_DATABASE
+    value: '##DRUPAL_MYSQL_DATABASE##'
+  - key: MYSQL_USER
+    value: '##DRUPAL_MYSQL_USER##'
+  - key: MYSQL_PASSWORD
+    value: '##DRUPAL_MYSQL_PASSWORD##'
+dependencies: []
+image: mariadb:10.3.9
+key: drupalmariadb
+network: '##PUBLIC_NETWORK##'
+variables:
+- key: DRUPAL_MYSQL_DATABASE
+  value: drupal
+  output: true
+- key: DRUPAL_MYSQL_USER
+  value: manager
+  output: true
+- key: DRUPAL_MYSQL_PASSWORD
+  value: secret
+  output: true
+- key: DRUPAL_MYSQL_HOST
+  value: drupalmariadb
+  output: true
+hide: true

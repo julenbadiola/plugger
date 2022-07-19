@@ -1,0 +1,28 @@
+name: build-and-publish-documentation
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - master
+    paths:
+      - ./docs/**
+      - .github/workflows/build-and-publish-documentation.yml
+
+jobs:
+  documentation:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Build documentation
+        run: |
+          pip3 install -r docs/requirements.txt
+          make documentation
+
+      - name: Deploy documentation to GitHub pages
+        uses: JamesIves/github-pages-deploy-action@v4.3.3
+        with:
+          branch: documentation
+          folder: docs/html

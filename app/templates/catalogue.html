@@ -1,0 +1,134 @@
+{% extends "base.html" %}
+
+{% block title %} Catalogue {% endblock %}
+
+<!-- Specific Page CSS goes HERE  -->
+{% block stylesheets %}{% endblock stylesheets %}
+
+{% block content %}
+<div class="py-4 container vh-100">
+  <h3 class="mt-3">Started:</h3>
+  <div class="row">
+    <table class="table table-hover table-responsive">
+      <thead class="thead-dark">
+        <tr>
+          <th></th>
+          <th>Name</th>
+          <th>Status</th>
+          <th>Handle</th>
+        </tr>
+      </thead>
+
+      <tbody>
+
+        {% for plugin in started %}
+        <tr>
+          <td> <img class="align-middle" width="50" height="50" src="{{plugin.info.icon}}" alt="Snapshot"> </td>
+
+          <td>
+            <h5>{{plugin.info.name}}</h5>
+          </td>
+          <td>
+            <div class="alert alert-success align-middle" role="alert">
+              Service up and healthy
+            </div>
+          </td>
+          <td>
+            {% if plugin.route %}
+            <button class="btn btn-primary w-100 align-middle"
+              onclick="window.open('{{plugin.route}}','_blank')">Open</button>
+            {% endif %}
+
+            <form action="" method="post">
+              {% csrf_token %}
+              <button type="submit" id="{{plugin.name}}StopButton" name="stop" class="btn btn-danger w-100 align-middle"
+                value="{{plugin.name}}">Stop</button>
+            </form>
+          </td>
+        </tr>
+        {% endfor %}
+
+
+      </tbody>
+
+    </table>
+    {% if started|length == 0 %}
+    <div class="alert alert-warning" role="alert">
+      There is no plugin started yet
+    </div>
+    {% endif %}
+
+  </div>
+
+  <h3 class="mt-5">Available:</h3>
+
+  <div class="row">
+    {% if notstarted|length > 0 %}
+    {% for plugin in notstarted %}
+    <div class="col-6 col-md-4 card m-2 d-flex flex-column" style="width: 18rem;">
+      <img class="card-img-top" style="height: 200px; width: auto" src="{{plugin.info.snapshots.0}}" alt="Snapshot">
+
+      <div class="card-body d-flex flex-column">
+        <h5 class="card-title">{{plugin.info.name}}</h5>
+        <p class="card-text">{{plugin.info.description|truncatechars:200}}</p>
+        <p class="card-text">Dependencies:</p>
+        <ul>
+          {% for dependency in plugin.dependencies %}
+
+          <li>{{dependency}}</li>
+          {% endfor %}
+        </ul>
+
+        <button type="button" class="btn btn-primary mt-auto" data-toggle="modal" data-target="#{{plugin.name}}">
+          Launch {{plugin.name}}
+        </button>
+      </div>
+
+    </div>
+    <div class="modal fade" id="{{plugin.name}}" tabindex="-1" role="dialog" aria-labelledby="{{plugin.name}}Label"
+      aria-hidden="true">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="{{plugin.name}}Label">Launch {{plugin.info.name}}</h5>
+            <button type="button" id="{{plugin.name}}OpenButton" class="btn btn-light" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <form method="post">
+            {% csrf_token %}
+            <div class="modal-body">
+              <input hidden type="text" class="form-control" name="name" value="{{plugin.name}}">
+
+              {% for variable in plugin.configuration.environment %}
+              {% if variable.editable %}
+              <div class="form-group">
+                <label for="{{variable.key}}">{{variable.key}}</label>
+                <input type="text" class="form-control" id="{{variable.key}}" name="{{variable.key}}"
+                  value="{{variable.value}}">
+              </div>
+              {% endif %}
+              {% endfor %}
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+              <button type="submit" id="{{plugin.name}}StartButton" class="btn btn-primary"
+                data-loading-text="<i class='fa fa-spinner fa-spin '></i> Processing Order">Launch</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+    {% endfor %}
+    {% else %}
+    <div class="alert alert-primary" role="alert">
+      No services available
+    </div>
+    {% endif %}
+
+  </div>
+</div>
+{% endblock content %}
+<!-- Specific Page JS goes HERE  -->
+{% block javascripts %}
+{% endblock javascripts %}

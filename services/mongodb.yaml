@@ -1,0 +1,42 @@
+configuration:
+  environment:
+  - key: MONGODB_USERNAME
+    value: user
+  - key: MONGODB_PASSWORD
+    value: userpass
+  - key: MONGODB_DATABASE
+    value: data
+  - key: MONGODB_ROOT_USER
+    value: root
+  - key: MONGODB_ROOT_PASSWORD
+    value: rootpassword
+image: bitnami/mongodb:latest
+key: mongodb
+dependencies: []
+network: '##PUBLIC_NETWORK##'
+variables:
+- key: MONGODB_USERNAME
+  value: user
+  output: true
+- key: MONGODB_PASSWORD
+  value: userpass
+  output: true
+- key: MONGODB_DATABASE
+  value: data
+  output: true
+- key: MONGODB_ROOT_USER
+  value: root
+  output: true
+- key: MONGODB_ROOT_PASSWORD
+  value: rootpassword
+  output: true
+- key: MONGODB_HOST
+  value: mongodb
+  output: true
+- key: MONGODB_PORT
+  value: '27017'
+  output: true
+- key: MONGO_NETWORK
+  value: db-network
+  output: true
+hide: true

@@ -1,0 +1,74 @@
+version: '3.8'
+services:
+  proxy:
+    container_name: traefik
+    image: traefik:v2.2
+    networks:
+      - net
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+    ports:
+      - "80:80"
+      - "8090:8080"
+    command:
+      # Enable Docker in Traefik, so that it reads labels from Docker services
+      - --providers.docker
+      # Do not expose all Docker services, only the ones explicitly exposed
+      - --providers.docker.exposedbydefault=false
+      # Disable Docker Swarm mode for local development
+      # - --providers.docker.swarmmode
+      # Enable the access log, with HTTP requests
+      - --accesslog
+      # Enable the Traefik log, for configurations and errors
+      - --log
+      # Enable the Dashboard and API
+      - --api
+      # Enable the Dashboard and API in insecure mode for local development
+      - --api.insecure=true
+    labels:
+      - traefik.docker.network=${NETWORK_NAME}
+      - traefik.http.routers.plugger-${NETWORK_NAME}-http.rule=Host(`${DOMAIN?Variable not set}`)
+      - traefik.http.services.plugger-${NETWORK_NAME}.loadbalancer.server.port=80
+
+  docs:
+    container_name: docs
+    build: ./docs
+    networks:
+      - net
+    volumes:
+      - ./docs/html:/usr/share/nginx/html
+    labels:
+      - traefik.enable=true
+      - traefik.docker.network=${NETWORK_NAME}
+      - traefik.http.services.docs.loadbalancer.server.port=80
+      - traefik.http.routers.docs.rule=Host(`${DOMAIN}`) && PathPrefix(`/docs`)
+      - traefik.http.routers.docs.middlewares=docs-stripprefix
+      - traefik.http.middlewares.docs-stripprefix.stripprefix.prefixes=/docs
+
+  plugger:
+    image: badiolajulen/plugger:master
+    container_name: plugger
+    env_file: .env
+    build:
+      context: .
+      target: dev
+    ports:
+      - 5005:5005
+    environment:
+      - MODE=compose
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+      - ./app:/app
+      - ./services:/app/services
+    command: ./entry-dev.sh
+    networks:
+      - net
+    # labels:
+    #   - traefik.enable=true
+    #   - traefik.docker.network=${NETWORK_NAME}
+    #   - traefik.http.routers.plugger-plugger-http.rule=PathPrefix(`/`)
+    #   - traefik.http.services.plugger-plugger.loadbalancer.server.port=5005
+
+networks:
+  net:
+    name: ${NETWORK_NAME}

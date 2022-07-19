@@ -1,0 +1,93 @@
+version: '3.8'
+services:
+  proxy:
+    container_name: traefik
+    image: traefik:v2.2
+    networks:
+      - net
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+    ports:
+      - "80:80"
+      - "8090:8080"
+    command:
+      # Enable Docker in Traefik, so that it reads labels from Docker services
+      - --providers.docker
+      # Do not expose all Docker services, only the ones explicitly exposed
+      - --providers.docker.exposedbydefault=false
+      # Disable Docker Swarm mode for local development
+      # - --providers.docker.swarmmode
+      # Enable the access log, with HTTP requests
+      - --accesslog
+      # Enable the Traefik log, for configurations and errors
+      - --log
+      # Enable the Dashboard and API
+      - --api
+      # Enable the Dashboard and API in insecure mode for local development
+      - --api.insecure=true
+    labels:
+      - traefik.docker.network=${NETWORK_NAME}
+      - traefik.http.routers.plugger-${NETWORK_NAME}-http.rule=Host(`${DOMAIN?Variable not set}`)
+      - traefik.http.services.plugger-${NETWORK_NAME}.loadbalancer.server.port=80
+
+  plugger:
+    image: badiolajulen/plugger:master
+    container_name: plugger
+    env_file: .env
+    build:
+      context: .
+      target: dev
+    ports:
+      - 5005:5005
+    environment:
+      - MODE=compose
+      - SELENIUM_HUB_HOST=selenium_hub:4444
+    depends_on:
+      - selenium_hub
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+      - ./app:/app
+      - ./test_services:/app/services
+    command: ./entry-dev.sh
+    networks:
+      - net
+
+  chrome:
+    image: selenium/node-chrome:4.3.0
+    shm_size: 2gb
+    depends_on:
+      - selenium_hub
+    environment:
+      - SE_EVENT_BUS_HOST=selenium_hub
+      - SE_EVENT_BUS_PUBLISH_PORT=4442
+      - SE_EVENT_BUS_SUBSCRIBE_PORT=4443
+      - VNC_NO_PASSWORD=1
+    networks:
+      - net
+
+  firefox:
+    image: selenium/node-firefox:4.3.0
+    shm_size: 2gb
+    depends_on:
+      - selenium_hub
+    environment:
+      - SE_EVENT_BUS_HOST=selenium_hub
+      - SE_EVENT_BUS_PUBLISH_PORT=4442
+      - SE_EVENT_BUS_SUBSCRIBE_PORT=4443
+      - VNC_NO_PASSWORD=1
+    networks:
+      - net
+
+  selenium_hub:
+    image: selenium/hub:4.3.0
+    container_name: selenium_hub
+    ports:
+      - "4442:4442"
+      - "4443:4443"
+      - "4444:4444"
+    networks:
+      - net
+
+networks:
+  net:
+    name: ${NETWORK_NAME}

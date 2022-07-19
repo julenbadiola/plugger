@@ -1,0 +1,25 @@
+EMAIL EN FALLO
+internacionalizacion
+persistencia
+mejorar interfaz
+tags
+cache para el endpoint publico
+establecer cuáles en marcha siempre
+clean images on exit
+ayuda en los fields que se piden en el modal
+
+MULTIPLE NETWORKS
+
+https://docs.docker.com/engine/swarm/stack-deploy/
+
+https://docs.docker.com/engine/reference/commandline/stack_deploy/
+
+https://blog.couchbase.com/deploy-docker-compose-services-swarm/#:~:text=Docker%201.13%20introduced%20a%20new,container%20application%20on%20multi%2Dhost.
+
+
+docker swarm init --advertise-addr 192.168.1.35
+Swarm initialized: current node (sf2kqeuu93apgafnpnky2yowg) is now a manager.
+
+To add a worker to this swarm, run the following command:
+
+    docker swarm join --token SWMTKN-1-2fjfdtz4x8xvhbjnc6rifrg22y5ptbas66nfo9gwn5gaesizia-5ybyu86z98wbwfrx26qjib4bz 192.168.1.35:2377
